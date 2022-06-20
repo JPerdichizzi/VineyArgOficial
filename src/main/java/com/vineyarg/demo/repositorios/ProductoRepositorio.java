@@ -19,14 +19,17 @@ public interface ProductoRepositorio extends JpaRepository<Producto, String> {
       @Query("SELECT p from Producto p WHERE p.productor.id= :idProductor")
       public Producto buscarPorProductor(@Param("idProductor") String idProductor);
       
-      @Query("SELECT p from Producto p WHERE p.productor.id= :idProductor")
-      public List<Producto> buscarTodosPorProductor(@Param("idProductor") String idProductor);
+      @Query("SELECT p from Producto p WHERE p.productor.correo= :correo")
+      public List<Producto> buscarTodosPorCorreoProductor(@Param("correo") String correo);
 
-      @Query ("SELECT * FROM Producto p WHERE p.precio ORDER BY p.precio ASC= :precio")
+      @Query ("SELECT p FROM Producto p ORDER BY p.precio")
       public Producto buscarPorPrecio (@Param ("precio") Double precio);
       
-      @Query("SELECT p from Producto p WHERE p.varietal Like % :varietal%")
+      @Query("SELECT p from Producto p WHERE p.varietal = :varietal")
       public Producto buscarPorVarietal(@Param("varietal") String varietal);
+      
+       @Query("SELECT p from Producto p WHERE p.varietal = :varietal")
+      public List <Producto> buscarTodosPorVarietal(@Param("varietal") String varietal);
       
       @Query ("SELECT p FROM Producto p WHERE p.id= :id")
       public Producto buscarPorId (@Param ("id") String id);

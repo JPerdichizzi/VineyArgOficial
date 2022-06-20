@@ -84,16 +84,25 @@
                 <a href="/HTML/registro.html">
                     <li class="fa-solid fa-user nav__item"></li>
                 </a>
+                
+                <p th:if="${logout != null}" th:text="${'Cerrar sesión'}" th:ref="@{/checkout}" style="color:red"></p>
+                <p th:if="${login != null}" th:text="${'Iniciar sesión'}" th:ref="@{/login}" style="color:red"></p>
+                
             </ul>
         </div>
     </nav>
     <!-- Fin del header -->
 
     <section class="container producto my-5 pt-5">
+        
+        
         <div class="row mt-5">
             <div class="col-lg-5 col-md-12 col-12">
-                <img class="img-fluid w-100 pb-1" src="/imagenes/productos/LB_Malbec_375.png" alt="" id="main">
-
+               
+                <img th:if="${producto.foto != null}" class="img-fluid w-100 pb-1" th:src="${'/imagen/producto' + producto.id}" alt="">
+                   <img th:if="${producto.foto == null}" class="img-fluid w-100 pb-1" th:text="${Producto sin imágen">
+              
+                  
                 <div class="small-img-group">
                     <div class="small-img-col">
                         <img class="small-img" src="/imagenes/productos/LB_Malbec_375.png" width="100%" alt="">
@@ -109,17 +118,29 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="col-lg-5 col-md-12 col-12">
-                <h6>Lorem ipsum dolor</h6>
-                <h3 class="py-4">Lorem ipsum dolor sit amet</h3>
-                <h2>$ 1.850,00</h2>
-                <input type="number" value="1">
-                <button class="buy-btn">Agregar al carrito</button>
+                
+                <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
+                
+                <form th:if="${compraEnCurso!= null}" action="/finalizarCompra" method="POST">
+                   <input th:if="${perfil != null)}" type="hidden" class="form-control" name="idUsuario" th:value="${perfil.id}"/> 
+                   <input th:if="${compra != null}" type="hidden" name="idCompra" th:value="$(compra.id)">
+                <button class="buy-btn" type="submit" th:text="${'Finalizar pedido'}"></button>
+                </form>
+                
+                <form action="/agregaCarrito" method="POST" enctype="multipart/form-data">
+                   <h6 th:text="${producto.productor.nombre}"</h6>
+                <h3 class="py-4"th:text="${producto.nombre}"</h3>
+                <h2 th:text="${producto.precio}"</h2>
+                 <input th:if="${perfil != null)}" type="hidden" class="form-control" name="id" th:value="${perfil.id}"/> 
+                 <input type="number" name="cantidad" th:value="$(cantidad)">
+                <input type="hidden" name="idProducto" th:value="$(idProducto)">
+               
+                <button class="buy-btn" type="submit">Agregar al carrito</button>
+                 <form>
                 <h4 classs="mt-5 mb-5">Descripcion</h4>
-                <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo recusandae dolorum voluptatem,
-                    harum possimus aspernatur ratione hic illum necessitatibus, voluptate rem eveniet asperiores iusto
-                    provident culpa iure ab ducimus a itaque ipsa, inventore quaerat. Impedit.</span>
+                <span th:text="${producto.descripcion}"></span>
             </div>
         </div>
     </section>
@@ -131,7 +152,20 @@
             <hr class="mx-auto">
         </div>
         <div class="row mx-auto container-fluid">
-            <div class="producto text-center cl-lg-3 col-md-4 col-12">
+            <div class="producto text-center cl-lg-3 col-md-4 col-12" th:each="{producto : ${productosSimilares}">
+                <img class="img-fluid mb-3" th:src="${'/imagen/producto' + producto.id}" alt="">
+                <div class="estrella">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h5 class="p-nombre" th:text="${producto.nombre}"></h5>
+                <h4 class="p-precio" th:text="${producto.precio}"> </h4>
+                <button class="buy-btn" th:href="@{/producto.html/(id=${producto.id})}">Comprar ahora</button>
+            </div>
+<!--            <div class="producto text-center cl-lg-3 col-md-4 col-12">
                 <img class="img-fluid mb-3" src="/imagenes/productos/LB_Malbec_375.png" alt="">
                 <div class="estrella">
                     <i class="fas fa-star"></i>
@@ -156,20 +190,7 @@
                 <h5 class="p-nombre">Luigi Bosca Malbec</h5>
                 <h4 class="p-precio">$ 8010,90</h4>
                 <button class="buy-btn">Comprar ahora</button>
-            </div>
-            <div class="producto text-center cl-lg-3 col-md-4 col-12">
-                <img class="img-fluid mb-3" src="/imagenes/productos/LB_Malbec_375.png" alt="">
-                <div class="estrella">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <h5 class="p-nombre">Luigi Bosca Malbec</h5>
-                <h4 class="p-precio">$ 8010,90</h4>
-                <button class="buy-btn">Comprar ahora</button>
-            </div>
+            </div>-->
         </div>
     </section>
 

@@ -24,7 +24,8 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
 
     @Autowired
    UsuarioServicio usuarioServicio = new UsuarioServicio();
-
+     
+    
 
     @Autowired
     public void ConfigureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,5 +43,22 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter {
 				.passwordParameter("clave").defaultSuccessUrl("/inicio").failureUrl("/?error=error")
 				.permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/?logout=logout").permitAll().and().csrf()
 				.disable();
+       
+       
+       //PRUEBA DIFERENTES USUARIOS:
+       
+//       http.authorizeRequests().antMatchers("/css/*", "/js/*", "/img/*", "/**").access("hasRole('ROLE_ADMINISTRADOR')").and().formLogin()
+//				.loginPage("/").loginProcessingUrl("/logincheck").usernameParameter("correo")
+//				.passwordParameter("clave").defaultSuccessUrl("/administradorweb").failureUrl("/?error=error")
+//				.permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/?logout=logout").permitAll().and()
+//               .authorizeRequests().antMatchers("/css/*", "/js/*", "/img/*", "/**").access("hasRole('ROLE_USUARIO_COMUN')").and().formLogin()
+//				.loginPage("/").loginProcessingUrl("/logincheck").usernameParameter("correo")
+//				.passwordParameter("clave").defaultSuccessUrl("/usuarioweb").failureUrl("/?error=error")
+//				.permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/?logout=logout").permitAll().and()
+//               .authorizeRequests().antMatchers("/css/*", "/js/*", "/img/*", "/**").access("hasRole('ROLE_PRODUCTOR')").and().formLogin()
+//				.loginPage("/").loginProcessingUrl("/logincheck").usernameParameter("correo")
+//				.passwordParameter("clave").defaultSuccessUrl("/productorweb").failureUrl("/?error=error")
+//				.permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/?logout=logout").permitAll()
+//                                .and().csrf().disable();
     }
 }

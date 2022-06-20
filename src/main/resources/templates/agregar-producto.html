@@ -63,7 +63,8 @@
                 <a href="/HTML/registro.html">
                     <li class="fa-solid fa-user nav__item"></li>
                 </a>
-
+                <p th:if="${logout != null}" th:text="${'Cerrar sesión'}" th:ref="@{/checkout}" style="color:red"></p>
+                <p th:if="${login != null}" th:text="${'Iniciar sesión'}" th:ref="@{/login}" style="color:red"></p>
             </ul>
         </div>
     </nav>
@@ -76,7 +77,7 @@
             <div class="titulo">Agregá tu Vino!</div>
             <form action="/agregarProducto" method="POST" enctype="multipart/form-data">
                 
-                 <p th:if="${error != null}" th:text="${error}" style="color:red";></p>
+                 <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
                   <p th:if="${exito != null}" th:text="${exito}" style="color:red"></p>
                  
                   <input type="hidden" class="form-control" name="id" th:value="${perfil-productor.id}"/> 

@@ -20,14 +20,10 @@ public class ControladorPrincipal {
     
     @RequestMapping("/index")
     public String page(Model model) {
-        model.addAttribute("attribute", "value");
+        
         return "index.html";
     }
     
-    @GetMapping("/terminos-condiciones")
-    public String terminosCondiciones() {
-        return "terminos-condiciones.html";
-    }
     
     
 }
