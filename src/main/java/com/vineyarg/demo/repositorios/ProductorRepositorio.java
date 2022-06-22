@@ -24,6 +24,8 @@ public interface ProductorRepositorio extends JpaRepository<Productor, String>{
     
     @Query("SELECT p from Productor p where p.correo = :correo AND p.clave = :clave")
     public Productor BuscarProductorPorCorreoYClave(@Param("correo") String correo, @Param("clave") String clave);
-    
+ 
+//     @Query ("SELECT p FROM Productor p WHERE p.region= :region")
+//      public Productor listarPorRegion (@Param ("region") String region);
 }
 

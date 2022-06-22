@@ -33,5 +33,7 @@ public interface ProductoRepositorio extends JpaRepository<Producto, String> {
       
       @Query ("SELECT p FROM Producto p WHERE p.id= :id")
       public Producto buscarPorId (@Param ("id") String id);
+      
+      
     
 }

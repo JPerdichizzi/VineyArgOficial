@@ -2,10 +2,14 @@ package com.vineyarg.demo.controladores;
 
 import com.vineyarg.demo.entidades.Compra;
 import com.vineyarg.demo.entidades.Producto;
+import com.vineyarg.demo.entidades.Productor;
 import com.vineyarg.demo.entidades.Usuario;
 import com.vineyarg.demo.repositorios.ProductoRepositorio;
+import com.vineyarg.demo.repositorios.ProductorRepositorio;
 import com.vineyarg.demo.repositorios.UsuarioRepositorio;
 import com.vineyarg.demo.servicios.ProductoServicio;
+import com.vineyarg.demo.servicios.ProductorServicio;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
@@ -24,13 +28,18 @@ public class TiendaControlador {
 
     @Autowired
     ProductoServicio productoServicio;
-    
 
     @Autowired
     ProductoRepositorio productoRepositorio;
-    
+
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
+
+    @Autowired
+    ProductorRepositorio productorRepositorio;
+
+    @Autowired
+    ProductorServicio productorServicio;
 
     @GetMapping("/tienda")
     public String tienda(ModelMap modelo) {
@@ -54,7 +63,6 @@ public class TiendaControlador {
 
         }
 
-        
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
@@ -62,18 +70,27 @@ public class TiendaControlador {
             usuario = respuesta.get();
 
             modelo.put("perfil", usuario);
-            }
-            
-
-            
-            Producto producto = productoRepositorio.buscarPorId(idProducto);
-
-            modelo.addAttribute("producto", producto);
-
-            List<Producto> productosSimilares = productoRepositorio.buscarTodosPorVarietal(productoRepositorio.findById(idProducto).get().getVarietal());
-
-            modelo.put("productosSimilares", productosSimilares);
-
-            return "producto";
         }
+
+        Producto producto = productoRepositorio.buscarPorId(idProducto);
+
+        modelo.addAttribute("producto", producto);
+
+        List<Producto> productosSimilares = productoRepositorio.buscarTodosPorVarietal(productoRepositorio.findById(idProducto).get().getVarietal());
+
+        modelo.put("productosSimilares", productosSimilares);
+
+        return "producto";
     }
+
+    
+    @GetMapping("/tienda")
+    public String mostrarPorRegiones(ModelMap modelo, String region) {
+
+       
+        modelo.addAttribute("productor", productorRepositorio.buscarPorRegion(region));
+
+        return "tienda.html";
+    }
+
+}

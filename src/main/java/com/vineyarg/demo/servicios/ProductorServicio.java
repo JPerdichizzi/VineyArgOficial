@@ -184,13 +184,13 @@ public class ProductorServicio {
 
     //CONSULTA POR NOMBRE
     @Transactional(readOnly = true)
-    public Productor buscarPorNombre(String nombre) throws Exception {
+    public Productor buscarPorRegion(String region) throws Exception {
         
-        Productor productor = productorRepositorio.buscarPorNombre(nombre);
+        Productor productor = productorRepositorio.buscarPorRegion(region);
         return productor;
     }
 
-    //TRAER LISTA POR NOMBRE
+    //TRAER LISTA 
     @Transactional(readOnly = true)
     public List<Productor> listaProductores() {
         List<Productor> listaProductores = productorRepositorio.findAll();
