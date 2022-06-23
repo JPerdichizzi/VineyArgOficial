@@ -70,9 +70,9 @@ public class ProductoServicio {
 
     }
 
-    public void modificarProducto(String id, String nombre, Integer cantidad, Double precio, String descripcion) throws Excepcion {
+    public void modificarProducto(String idProductoElegido, String nombre, Integer cantidad, Double precio, String descripcion) throws Excepcion {
 
-        Optional<Producto> respuesta = productoRepositorio.findById(id);
+        Optional<Producto> respuesta = productoRepositorio.findById(idProductoElegido);
         if (respuesta.isPresent()) {
 
             Producto producto = respuesta.get();
@@ -181,8 +181,16 @@ public class ProductoServicio {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new Excepcion("El nombre no puede estar vacío");
         }
+        
+        List<Producto> productos = productoRepositorio.findAll();
+        
+        for (Producto producto : productos) {
+            
+            if(producto.getNombre().equalsIgnoreCase(nombre))
+            throw new Excepcion("Ya hay un producto registrado con ese nombre");
+        }
         if (cantidad < 0) {
-            throw new Excepcion("La cantidad debe ser mayor a 0");
+            throw new Excepcion("No puedes agregar un stock negativo");
         }
         if (precio < 0) {
             throw new Excepcion("El precio debe ser mayor a 0");
@@ -191,13 +199,13 @@ public class ProductoServicio {
             throw new Excepcion("La descripcion no puede estar vacía");
         }
         if (varietal == null) {
-            throw new Excepcion("El varietal no puede estar vacío");
+            throw new Excepcion("Debes indicar el varietal de tu vino");
         }
         if (productor == null) {
-            throw new Excepcion("Debe ingresar la bodega");
+            throw new Excepcion("Debes ingresar la bodega");
         }
         if (SKU == null) {
-            throw new Excepcion("Debe ingresar SKU del producto");
+            throw new Excepcion("Debes ingresar SKU del producto");
         }
 //        if (valoraciones == null || valoraciones.isNaN()) {//PREGUNTAR
 //            throw new Excepcion("Debe valorar el producto");
