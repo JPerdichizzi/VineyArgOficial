@@ -87,10 +87,10 @@ public class TiendaControlador {
     @GetMapping("/tienda")
     public String mostrarPorRegion(ModelMap modelo, String region) {
 
-        //productor es el identificador que va a viajar al html(debe coincidir con el th)/lo segundo es el objeto de java que quiero enviar
+        //productosPorRegion es el identificador que va a viajar al html(debe coincidir con el th)/lo segundo es el objeto de java que quiero enviar
        
-        List <Producto> productosPorRegion = new ArrayList();
-        modelo.addAttribute("productosPorRegion", productorRepositorio.buscarPorRegion(region));
+        List <Productor> productoresPorRegion = new ArrayList();
+        modelo.addAttribute("productoresPorRegion", productorRepositorio.buscarPorRegion(region));
 
         return "tienda.html";
     }
