@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -64,11 +65,16 @@ public class UsuarioControlador {
     }
 
     @GetMapping("/logueo")
-    public String login(@RequestParam(required = false) String error, ModelMap modelo) {
+    public String login(@RequestParam(required = false) String error, ModelMap modelo/*, @RequestParam(required = false) String faltaLogin*/) {
+        
         
         if(error != null) {
              modelo.put("error", "Nombre de usuario o clave incorrectos");
         }
+        
+//        if(faltaLogin.equalsIgnoreCase("aa")) {
+//             modelo.put("debeLoguearse", "Debes ingresar a tu cuenta para poder comprar");
+//        }
        
        
             return "login.html";
@@ -223,28 +229,7 @@ public class UsuarioControlador {
         return "usuarioweb.html";
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_USUARIO_COMUN')")
-//    @GetMapping("/eliminar-usuario")
-//    public String eliminarUsuario(ModelMap modelo, HttpSession session, @RequestParam String id) throws Excepcion {
-//
-//        Usuario login = (Usuario) session.getAttribute("usuarioSession");
-//        if (login == null || !login.getId().equalsIgnoreCase(id)) {
-//            return "redirect:/index.html";
-//        }
-//
-//        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-//
-//        if (respuesta.isPresent()) {
-//            Usuario usuario = new Usuario();
-//            usuario = respuesta.get();
-//            modelo.put("perfil", usuario);
-//        } else {
-//
-//            throw new Excepcion("Usuario no reconocido");
-//        }
-//
-//        return "eliminar-usuario.html";
-//    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_COMUN')")
     @PostMapping("/eliminarUsuario")
@@ -334,44 +319,44 @@ public class UsuarioControlador {
         return "administrador.html";
     }
 
-    @PostMapping("/aceptarCompra")
-    public String aceptarCompra(ModelMap modelo, @RequestParam String decision, @RequestParam String observaciones, @RequestParam String id) {
-
-        Compra compra = compraRepositorio.buscarPorId(id);
-
-        if (decision.equalsIgnoreCase("ACEPTAR")) {
-
-            compra.setEstadoCompra(EstadoCompra.ACEPTADA);
-            compra.setObservacionesCompra(observaciones);
-
-        } else if (decision.equalsIgnoreCase("RECHAZAR")) {
-            compra.setEstadoCompra(EstadoCompra.RECHAZADA);
-            compra.setObservacionesCompra(observaciones);
-
-            //RESTITUIMOS EL STOCK DE PRODUCTOS (COMO EN EL SERVICIO ANULAR COMPRA PERO SIN ELIMINAR LA COMPRA DE LA BASE DE DATOS):
-            List<Producto> listaProductos = compra.getListaProductos();
-            List<Integer> listaCantidades = compra.getCantidades();
-
-            for (int i = 0; i < listaProductos.size(); i++) {
-                for (int j = 0; j < listaCantidades.size(); j++) {
-
-                    if (i == j) {
-
-                        Producto producto = productoRepositorio.buscarPorId(listaProductos.get(i).getId());
-
-                        producto.setCantidad(producto.getCantidad() + listaCantidades.get(j));
-
-                        productoRepositorio.save(producto);
-
-                    }
-                }
-
-            }
-
-        }
-        return "administrador.html";
-    }
-
+//    @PostMapping("/aceptarCompra")
+//    public String aceptarCompra(ModelMap modelo, @RequestParam String decision, @RequestParam String observaciones, @RequestParam String id) {
+//
+//        Compra compra = compraRepositorio.buscarPorId(id);
+//
+//        if (decision.equalsIgnoreCase("ACEPTAR")) {
+//
+//            compra.setEstadoCompra(EstadoCompra.ACEPTADA);
+//            compra.setObservacionesCompra(observaciones);
+//
+//        } else if (decision.equalsIgnoreCase("RECHAZAR")) {
+//            compra.setEstadoCompra(EstadoCompra.RECHAZADA);
+//            compra.setObservacionesCompra(observaciones);
+//
+//            //RESTITUIMOS EL STOCK DE PRODUCTOS (COMO EN EL SERVICIO ANULAR COMPRA PERO SIN ELIMINAR LA COMPRA DE LA BASE DE DATOS):
+//            Set<Producto> listaProductos = compra.getListaProductos();
+//            List<Integer> listaCantidades = compra.getCantidades();
+//
+//            for (int i = 0; i < listaProductos.size(); i++) {
+//                for (int j = 0; j < listaCantidades.size(); j++) {
+//
+//                    if (i == j) {
+//
+//                        Producto producto = productoRepositorio.buscarPorId(listaProductos.get(i).getId());
+//
+//                        producto.setCantidad(producto.getCantidad() + listaCantidades.get(j));
+//
+//                        productoRepositorio.save(producto);
+//
+//                    }
+//                }
+//
+//            }
+//
+//        }
+//        return "administrador.html";
+//    }
+//
     @GetMapping("/usuarioweb")
     public String usuarioWeb(ModelMap modelo, HttpSession session, @RequestParam String id) throws Excepcion {
 
