@@ -174,6 +174,8 @@ public class ProductoServicio {
         Producto producto = productoRepositorio.buscarPorVarietal(varietal);
         return producto;
     }
+    
+    
 
     public void validar(String nombre, Integer cantidad, Double precio, String descripcion,
             String varietal, Productor productor, String SKU) throws Excepcion {

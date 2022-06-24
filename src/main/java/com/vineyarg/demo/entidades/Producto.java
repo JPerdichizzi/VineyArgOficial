@@ -1,4 +1,3 @@
-
 package com.vineyarg.demo.entidades;
 
 import java.io.Serializable;
@@ -16,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
-
 @Entity
 public class Producto implements Serializable {
 
@@ -30,6 +28,7 @@ public class Producto implements Serializable {
     private Double precio;
     private String descripcion;
     private String varietal;
+    private String region;
     @ManyToOne
     private Productor productor;
     private String sku;
@@ -38,13 +37,13 @@ public class Producto implements Serializable {
     private int promedioValoraciones;
     @ManyToOne
     private Compra compra;
-    
+
     private boolean alta;
-    
-    @ElementCollection(targetClass=Imagenes.class)
+
+    @ElementCollection(targetClass = Imagenes.class)
     @OneToMany
     private List<Imagenes> imagenes;
-    
+
     public Producto() {
     }
 
@@ -73,7 +72,6 @@ public class Producto implements Serializable {
         this.compra = compra;
     }
 
-   
     public String getId() {
         return id;
     }
@@ -178,7 +176,18 @@ public class Producto implements Serializable {
         this.imagenes = imagenes;
     }
 
-    
-    
-    
+    /**
+     * @return the region
+     */
+    public String getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
 }
