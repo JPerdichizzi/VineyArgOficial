@@ -201,21 +201,28 @@ hr {
 
 /*----------- FIN NAVBAR-----------*/
 
-#home {
-    background-image: url(../imagenes/fondovinoCorchos.jpg);
-    width: 100%;
-    height: 100vh;
-    background-size: cover;
-    background-position: top right;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-}
+    #home {
+        background-image: url(../imagenes/wine-1543170_1920.jpg);
+        width: 100%;
+        height: 100vh;
+        background-size: cover;
+        background-position: top right;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
 
-#home span {
-    color: #EC268F;
-}
+    #home span {
+        color: #EC268F;
+    }
+    .container button{
+        transition: 0.5s;
+        border-radius:5px;
+    }
+    .container button:hover{
+        background-color: #EC268F;
+    }
 
 /* Regiones */
 
@@ -232,40 +239,19 @@ hr {
     position: absolute;
     width: 100%;
     height: 100%;
+    font-size: 30px;
+    color: #000;
     top: 0;
     left: 0;
+    transition: 0.5s;
 }
 
 .card .card-body:hover {
     cursor: pointer;
-    background-color: rgba(246, 144, 144, 0.301)
+    background-color: #29292980;
 }
 
-.card .card-body button {
-    display: inline-block;
-    font-size: 20px;
-    font-weight: 700;
-    color: #EC268F;
-    background: none;
-    text-transform: uppercase;
-    border-bottom: 1px solid #EC268F;
-    padding: 2.5px;
-    transform: translateY(70px);
-    transition: 0.3s ease;
-}
 
-.card .card-body button:hover {
-    color: #d8d8d8;
-    border-bottom: 1px solid #d8d8d8
-}
-
-.card:nth-child(1) .card-body {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-end;
-    text-align: end;
-}
 
 /* Productos */
 
@@ -317,9 +303,11 @@ hr {
 }
 
 #banner button {
-    background-color: #EC268F;
+    background-color: #000;
 }
-
+#banner button:hover {
+    background-color: #e065a7;
+}
 
 /*-----------Carrito----------*/
 
