@@ -10,7 +10,7 @@
         <!-- Links -->
         <!-- CSS -->
         <link rel="stylesheet" href="./CSS/style.css">
-        <link rel="stylesheet" href="./CSS/registros.css">
+        <link rel="stylesheet" href= "./CSS/editar.css">
         <!-- JavaScript -->
         <script src="/JS/script.js"></script>
         <!-- Google Fonts -->
@@ -149,7 +149,7 @@
             </form>
             <form action="/eliminarProductor" method="POST" enctype="multipart/form-data">
 
-                <p th:if="${error1 != null}" th:text="${error1}" style="color:red" ;></p>
+                <p th:if="${error1 != null}" th:text="${error1}" style="color:red"; ></p>
 
                 <input th:if="${session.usuarioSession != null}" class="control" type="hidden" name="idUsuario" id=""
                     th:value="${session.usuarioSession.id}"> 
@@ -161,10 +161,6 @@
                             required="" th:value="${perfil.correo}">
                     </div>
 
-                    <div class="input_caja">
-                        <input class="control" type="email" name="correo" placeholder="Ingresar su Email" id=""
-                            required="" th:value="${perfil.correo}">
-                    </div>
                     <div class="input_caja">
                         <input class="control" type="password" name="clave" id="" placeholder="Ingresar su Contraseña"
                             required="" th:value="${clave}">
