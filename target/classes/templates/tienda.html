@@ -43,6 +43,8 @@
 
 <body>
     <!-- Header -->
+
+
     <nav class="etiqueta__nav">
 
         <div class="nav__container">
@@ -61,24 +63,21 @@
             <div class="hamburguesa">
                 <ul class="nav__ul">
 
-                   <li class="nav__item"><a href="">Regiones</a></li>
+                     <li class="nav__item"><a href="/">Home</a></li>
+                    <li class="nav__item"><a href="">Regiones</a></li>
                     <li class="nav__item"><a href="">Bodegas</a></li>
                     <li class="nav__item"><a href="/tienda">Tienda</a></li>
                     <li class="nav__item"><a href="mailto:vineyarg@vineyargentina.com.ar">Contacto</a></li>
                 </ul>
-                
-                  
 
                 <ul class="nav__iconos">
-                    <a href="/logout"> Cerrar sesión </a><br>
-                    
                     <a href="">
                         <li class="fa-solid fa-bag-shopping nav__item"></li>
                     </a>
                     <a href="">
                         <li class="fa-solid fa-heart nav__item"></li>
                     </a>
-                    <a th:if="${session.usuarioSession == null}" th:href="@{/logueo}"> 
+                     <a th:if="${session.usuarioSession == null}" th:href="@{/logueo}"> 
                     
                         <li class="fa-solid fa-user nav__item"></li>
                     </a>

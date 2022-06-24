@@ -10,7 +10,7 @@
 
         <!-- Links -->
         <!-- CSS -->
-        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="./CSS/style.css">
         <!-- JavaScript -->
         <script src="/JS/script.js"></script>
         <!-- Google Fonts -->
@@ -59,49 +59,64 @@
 
     <body>
         <!-- Header -->
-        <nav class="etiqueta__nav">
-            <div class="nav__container">
-                <div class="nav__logo">
-                    <a href="/"><img src="/imagenes/logofinalTransparente.png" alt="Logo VineyArg"
-                                               width="200px"></a>
-                </div>
-                <label for="menuId" class="nav__label">
-                    <img src="/MENU RESPONSIVE/menu.svg" alt="nav__img" width="40px">
-                </label>
-                <input type="checkbox" id="menuId" class="nav__input">
+
+
+    <nav class="etiqueta__nav">
+
+        <div class="nav__container">
+
+            <div class="nav__logo">
+                <a href="/"><img src="/imagenes/logofinalTransparente.png" alt="Logo VineyArg"
+                        width="200px"></a>
+            </div>
+
+
+            <label for="menuId" class="nav__label">
+                <img src="/Menu-responsive/menu.svg" alt="nav__img" width="40px">
+            </label>
+            <input type="checkbox" id="menuId" class="nav__input">
+
+            <div class="hamburguesa">
                 <ul class="nav__ul">
-                    <li class="nav__item"><a href="/">Home</a></li>
+
+                     <li class="nav__item"><a href="/">Home</a></li>
                     <li class="nav__item"><a href="">Regiones</a></li>
                     <li class="nav__item"><a href="">Bodegas</a></li>
                     <li class="nav__item"><a href="/tienda">Tienda</a></li>
                     <li class="nav__item"><a href="mailto:vineyarg@vineyargentina.com.ar">Contacto</a></li>
+                </ul>
+
+                <ul class="nav__iconos">
                     <a href="">
                         <li class="fa-solid fa-bag-shopping nav__item"></li>
                     </a>
                     <a href="">
                         <li class="fa-solid fa-heart nav__item"></li>
                     </a>
+                     <a th:if="${session.usuarioSession == null}" th:href="@{/logueo}"> 
+                    
+                        <li class="fa-solid fa-user nav__item"></li>
+                    </a>
                     <a th:if="${session.usuarioSession != null}"> 
-                        <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'ADMINISTRADOR'}" th:href="@{/administradorweb(id=${session.usuarioSession.id})}"> 
-
-                            <li class="fa-solid fa-user nav__item"></li>
-                        </a>
-
-                        <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'USUARIOCOMUN'}" th:href="@{/usuarioweb(id=${session.usuarioSession.id})}"> 
-
-                            <li class="fa-solid fa-user nav__item"></li>
-                        </a>
-                        <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'PRODUCTOR'}" th:href="@{/productorweb(id=${session.usuarioSession.id})}"> 
-
-                            <li class="fa-solid fa-user nav__item"></li>
-
-                            <p th:if="${logout != null}" th:text="${'Cerrar sesión'}" th:ref="@{/checkout}" style="color:red"></p>
-                            <p th:if="${login != null}" th:text="${'Iniciar sesión'}" th:ref="@{/login}" style="color:red"></p>
-
-                            </ul>
-                            </div>
-                            </nav>
-                            <!-- Fin del header -->
+                     <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'ADMINISTRADOR'}" th:href="@{/administradorweb(id=${session.usuarioSession.id})}"> 
+                    
+                        <li class="fa-solid fa-user nav__item"></li>
+                    </a>
+                       
+                          <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'USUARIOCOMUN'}" th:href="@{/usuarioweb(id=${session.usuarioSession.id})}"> 
+                    
+                        <li class="fa-solid fa-user nav__item"></li>
+                    </a>
+                          <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'PRODUCTOR'}" th:href="@{/productorweb(id=${session.usuarioSession.id})}"> 
+                    
+                        <li class="fa-solid fa-user nav__item"></li>
+                    </a>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Fin del header -->
 
                             <section class="container producto my-5 pt-5">
 
