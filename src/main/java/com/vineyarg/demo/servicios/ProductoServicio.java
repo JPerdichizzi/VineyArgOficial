@@ -1,13 +1,16 @@
 package com.vineyarg.demo.servicios;
 
+import com.vineyarg.demo.entidades.Imagenes;
 import com.vineyarg.demo.entidades.Producto;
 import com.vineyarg.demo.errores.Excepcion;
 import com.vineyarg.demo.entidades.Productor;
 import com.vineyarg.demo.repositorios.ImagenesRepositorio;
 import com.vineyarg.demo.repositorios.ProductoRepositorio;
 import com.vineyarg.demo.repositorios.ProductorRepositorio;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 //import com.vineyarg.demo.repositorios.ProductorRepositorio;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,10 @@ public class ProductoServicio {
     @Autowired
     private ImagenesRepositorio imagenesRepositorio;
 
+     @Autowired
+    private ImagenesServicio imagenesServicio;
+
+     
     @Autowired
     private ProductoRepositorio productoRepositorio;
 
@@ -32,7 +39,7 @@ public class ProductoServicio {
      private ProductorRepositorio productorRepositorio;
 
     @Transactional
-    public void agregarProducto(List<MultipartFile> imagenes, /*si no funciona probar así: MutiplepartFile[] imagenes*/String nombre, Integer cantidad, Double precio, String descripcion,
+    public void agregarProducto(Set<MultipartFile> imagenes, /*si no funciona probar así: MutiplepartFile[] imagenes*/String nombre, Integer cantidad, Double precio, String descripcion,
             String varietal, Productor productor, String SKU) throws Excepcion {
         /*Antes de persistir el objeto tenemos que validar que los atributos lleguen*/
         validar(nombre, cantidad, precio, descripcion,
@@ -41,7 +48,7 @@ public class ProductoServicio {
         //Creamos un nuevo producto y le seteamos los datos
         Producto producto = new Producto();
         producto.setNombre(nombre);
-        producto.setCantidad(cantidad);
+        producto.setCantidad(cantidad);  
         producto.setPrecio(precio);
         producto.setDescripcion(descripcion);
         producto.setVarietal(varietal);
@@ -54,40 +61,65 @@ public class ProductoServicio {
 //        producto.setValoraciones(valoraciones);
         //producto.setAlta(true);
 
-//        List<Imagenes> listaFotos = new ArrayList();
-//        for (int i = 0; i < imagenes.size(); i++) {
-//
-//            Imagenes imagen = new Imagenes();
-//
-//            imagenesServicio.guardarNueva(imagenes.get(i));
-//
-//            listaFotos.add(imagen);
-//
-//        }
-//        producto.setImagenes(listaFotos);
+        Set<Imagenes> imagenesCargadas = new HashSet();
+        Set<MultipartFile> imagenesInput = imagenes;
+        
+        for (MultipartFile multipartFile : imagenesInput) {
+            
+            Imagenes imagen = new Imagenes();
+            imagen = imagenesServicio.guardarNueva(multipartFile);
+
+            imagenesCargadas.add(imagen);
+
+        }
+
+        producto.setImagenes(imagenesCargadas);
 
         productoRepositorio.save(producto);//el repositorio guarda el objeto creado en la base de datos, lo transforma en una tabla
 
     }
 
-    public void modificarProducto(String idProductoElegido, String nombre, Integer cantidad, Double precio, String descripcion) throws Excepcion {
+    public void modificarProducto(Set<MultipartFile> imagenes, String idProductoElegido, String nombre, Integer cantidad, Double precio, String descripcion, String varietal) throws Excepcion {
 
         Optional<Producto> respuesta = productoRepositorio.findById(idProductoElegido);
         if (respuesta.isPresent()) {
 
             Producto producto = respuesta.get();
 
-            validar(nombre, cantidad, precio, descripcion,
+            if(producto.getNombre().equalsIgnoreCase(nombre)) {
+                
+                String nombreEstaOk = "nombreOk";
+                validar(nombreEstaOk, cantidad, precio, descripcion,
                     producto.getVarietal(), producto.getProductor(), producto.getSku());
+                
+            } else {validar(nombre, cantidad, precio, descripcion,
+                    producto.getVarietal(), producto.getProductor(), producto.getSku());
+            }
+            
 
             producto.setNombre(nombre);
             producto.setCantidad(cantidad);
             producto.setPrecio(precio);
             producto.setDescripcion(descripcion);
-//        producto.setVarietal(varietal);
-//        producto.setProductor(productor);
-//        producto.setSku(SKU);
-//        producto.setValoraciones(valoraciones);
+        producto.setVarietal(varietal);
+
+        if(!imagenes.isEmpty()) {
+            
+             Set<Imagenes> imagenesCargadas = new HashSet();
+        
+             Set<MultipartFile> imagenesInput = imagenes;
+        
+        for (MultipartFile multipartFile : imagenesInput) {
+            
+            Imagenes imagen = new Imagenes();
+            imagen = imagenesServicio.guardarNueva(multipartFile);
+
+            imagenesCargadas.add(imagen);
+
+        }
+        
+            producto.setImagenes(imagenesCargadas);
+        }
             productoRepositorio.save(producto);
 
         }
@@ -174,6 +206,8 @@ public class ProductoServicio {
         Producto producto = productoRepositorio.buscarPorVarietal(varietal);
         return producto;
     }
+    
+    
 
     public void validar(String nombre, Integer cantidad, Double precio, String descripcion,
             String varietal, Productor productor, String SKU) throws Excepcion {
@@ -189,6 +223,7 @@ public class ProductoServicio {
             if(producto.getNombre().equalsIgnoreCase(nombre))
             throw new Excepcion("Ya hay un producto registrado con ese nombre");
         }
+        
         if (cantidad < 0) {
             throw new Excepcion("No puedes agregar un stock negativo");
         }

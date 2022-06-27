@@ -59,10 +59,10 @@ public class ProductorServicio {
         productor.setDescripcion(descripcion);
         productor.setAlta(true);
 
-        Imagenes imagen = new Imagenes();
-        imagenesServicio.guardarNueva(archivo);
-
-        productor.setImagen(imagen);
+//        Imagenes imagen = new Imagenes();
+//        imagen = imagenesServicio.guardarNueva(archivo);
+//
+//        productor.setImagen(imagen);
 
         //PERSISTENCIA DEL OBJETO
         return productorRepositorio.save(productor);
@@ -107,19 +107,22 @@ public class ProductorServicio {
 
             productor.setRegion(region);
             System.out.println(productor.getId());
-            Imagenes imagen = new Imagenes();
-            imagenesServicio.guardarNueva(archivo);
-
-            productor.setImagen(imagen);
             
-           System.out.println(productor.getId() + "ultima");
-
+//            if(archivo != null) {
+//                  Imagenes imagen = new Imagenes();
+//        imagen = imagenesServicio.guardarNueva(archivo);
+//
+//            productor.setImagen(imagen);
+//            }
+          
+            
+           
             productorRepositorio.save(productor);
-            System.out.println(productor.getId() + "ultima2");
+            
             
             usuarioServicio.modificarUsuario(idUsuario, archivo, correo, clave1, clave2);
 
-               System.out.println(productor.getId() + "ultima3");
+            
         } else {
             throw new Excepcion("Usuario o clave no hallada");
         }
@@ -184,13 +187,13 @@ public class ProductorServicio {
 
     //CONSULTA POR NOMBRE
     @Transactional(readOnly = true)
-    public Productor buscarPorNombre(String nombre) throws Exception {
+    public Productor buscarPorRegion(String region) throws Exception {
         
-        Productor productor = productorRepositorio.buscarPorNombre(nombre);
+        Productor productor = productorRepositorio.buscarPorRegion(region);
         return productor;
     }
 
-    //TRAER LISTA POR NOMBRE
+    //TRAER LISTA 
     @Transactional(readOnly = true)
     public List<Productor> listaProductores() {
         List<Productor> listaProductores = productorRepositorio.findAll();

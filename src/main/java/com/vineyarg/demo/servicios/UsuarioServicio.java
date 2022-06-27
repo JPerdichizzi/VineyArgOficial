@@ -62,7 +62,7 @@ public class UsuarioServicio implements UserDetailsService {
 
             Usuario admin = new Usuario();
 
-            validar(nombre, apellido, DNI, correo, clave1, clave2, fechaNacimiento);
+//            validar(nombre, apellido, DNI, correo, clave1, clave2, fechaNacimiento);
 
             admin.setNombre(nombre);
             admin.setApellido(apellido);
@@ -75,7 +75,7 @@ public class UsuarioServicio implements UserDetailsService {
             admin.setTipoUsuario(tipoUsuario);
 
             Imagenes imagen = new Imagenes();
-            imagenesServicio.guardarNueva(archivo);
+            imagen = imagenesServicio.guardarNueva(archivo);
 
             admin.setImagen(imagen);
 
@@ -102,7 +102,7 @@ public class UsuarioServicio implements UserDetailsService {
             usuarioCliente.setTotalDineroComprado(0.0);
 
             Imagenes imagen = new Imagenes();
-            imagenesServicio.guardarNueva(archivo);
+            imagen = imagenesServicio.guardarNueva(archivo);
 
             usuarioCliente.setImagen(imagen);
 
@@ -122,10 +122,10 @@ public class UsuarioServicio implements UserDetailsService {
             usuarioProductor.setAlta(true);
             usuarioProductor.setTipoUsuario(tipoUsuario);
 
-//            Imagenes imagen = new Imagenes();
-//            imagenesServicio.guardarNueva(archivo);
-//            
-//            usuarioProductor.setImagen(imagen);
+            Imagenes imagen = new Imagenes();
+            imagen = imagenesServicio.guardarNueva(archivo);
+            
+            usuarioProductor.setImagen(imagen);
             usuarioRepositorio.save(usuarioProductor);
 
         }
@@ -141,19 +141,29 @@ public class UsuarioServicio implements UserDetailsService {
 
             Usuario usuario = respuesta.get();
 
-//            usuario.setNombre(nombre);
-//            usuario.setApellido(apellido);
-//            usuario.setDNI(DNI);
+            if(!usuario.getTipoUsuario().equals(TipoUsuario.PRODUCTOR)) {
+                
+                
+            if(usuario.getCorreo().equalsIgnoreCase(correo)) {
+                
+                String correoEstaOk = "estaok@estaok.com";
+                
+                validar(usuario.getNombre(), usuario.getApellido(), usuario.getDNI(), correoEstaOk, clave1, clave2, usuario.getFechaNacimiento());
+                
+            } else {
+                validar(usuario.getNombre(), usuario.getApellido(), usuario.getDNI(), correo, clave1, clave2, usuario.getFechaNacimiento());
+            }
+
+                
+            }
             usuario.setCorreo(correo);
             String encriptada = new BCryptPasswordEncoder().encode(clave1);
             usuario.setClave(encriptada);
-//            usuario.setFechaNacimiento(fechaNacimiento);
             usuario.setAlta(true);
-//            usuario.setTipoUsuario(tipoUsuario);
 
             if (archivo != null) {
                 Imagenes imagen = new Imagenes();
-                imagenesServicio.guardarNueva(archivo);
+                imagen = imagenesServicio.guardarNueva(archivo);
 
                 usuario.setImagen(imagen);
 

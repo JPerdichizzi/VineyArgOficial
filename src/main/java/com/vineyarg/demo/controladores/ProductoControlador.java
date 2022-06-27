@@ -13,6 +13,7 @@ import com.vineyarg.demo.servicios.ProductoServicio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -76,7 +77,7 @@ public class ProductoControlador {
     @PreAuthorize("hasAnyRole('ROLE_PRODUCTOR')")
     @PostMapping("/agregarProducto")
     public String agregarProducto(ModelMap modelo, @RequestParam String idProductor, @RequestParam String nombre, @RequestParam Integer cantidad, @RequestParam Double precio, @RequestParam String descripcion,
-            @RequestParam String varietal, @RequestParam String SKU, @RequestParam(required = false) List<MultipartFile> imagenes) throws Exception {
+            @RequestParam String varietal, @RequestParam String SKU, @RequestParam(required = false) Set<MultipartFile> imagenes) throws Exception {
 
         try {
 
@@ -88,7 +89,7 @@ public class ProductoControlador {
 
                 modelo.put("perfil", productorDelProducto);
 
-                productoServicio.agregarProducto(null, nombre, cantidad, precio, descripcion, varietal, productorDelProducto, SKU);
+                productoServicio.agregarProducto(imagenes, nombre, cantidad, precio, descripcion, varietal, productorDelProducto, SKU);
 
             }
 
@@ -97,7 +98,7 @@ public class ProductoControlador {
             e.getMessage();
             modelo.put("error", "No se ha podido guardar el producto");
         }
-        modelo.put("registrado", "Producto agregado correctamente y disponible para la venta");
+        modelo.put("registrado", "Producto agregado correctamente al catálogo y disponible para la venta");
 
         return "agregar-producto.html";
     }
@@ -109,7 +110,7 @@ public class ProductoControlador {
         List<Producto> productos = productoRepositorio.buscarTodosPorProductor(idProductor);
 
         modelo.put("productos", productos);
-        
+
         Producto productoElegido;
         modelo.put("productoElegido", null);
 
@@ -121,71 +122,119 @@ public class ProductoControlador {
         return "editar-producto.html";
 
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_PRODUCTOR')")
     @PostMapping("/editarProducto1")
-    public String editarproducto(ModelMap modelo, HttpSession session, @RequestParam String idProducto, @RequestParam String idUsuario,@RequestParam String eleccion) throws Excepcion {
-
-         Usuario login = (Usuario) session.getAttribute("usuarioSession");
-        if (login == null || !login.getId().equalsIgnoreCase(idUsuario)) {
-            return "redirect:/index.html";
-        }
-
-        if(eleccion.equalsIgnoreCase("editar")) {
-            
-            Optional<Producto> respuesta = productoRepositorio.findById(idProducto);
-
-        if (respuesta.isPresent()) {
-            Producto productoElegido = new Producto();
-            productoElegido = respuesta.get(); 
-            
-              modelo.put("productoElegido", productoElegido);
-         
-         }
-        } if(eleccion.equalsIgnoreCase("eliminar")) {
-            
-            
-            try {
-                productoServicio.bajaProducto(idProducto);
-
-                modelo.put("exito", "Producto dado de baja con éxito!!");
-
-            } catch (Exception e) {
-
-                e.getMessage();
-                modelo.put("error", "No se han podido eliminar el productos");
-            }
-            
-        }return "editar-producto.html";
-       
-    }
-    
-        
-    
-
-    @PreAuthorize("hasAnyRole('ROLE_PRODUCTOR')")
-    @PostMapping("/editarProducto")
-    public String editarProducto(ModelMap modelo, HttpSession session, @RequestParam String idProductoElegido, String idUsuario, @RequestParam String nombre, @RequestParam Integer cantidad,
-            @RequestParam Double precio, @RequestParam String descripcion,  @RequestParam(required = false) List<MultipartFile> imagenes) throws Exception {
+    public String editarproducto(ModelMap modelo, HttpSession session, @RequestParam String idProducto, @RequestParam String idUsuario, @RequestParam String eleccion) throws Excepcion {
 
         Usuario login = (Usuario) session.getAttribute("usuarioSession");
         if (login == null || !login.getId().equalsIgnoreCase(idUsuario)) {
             return "redirect:/index.html";
         }
 
-       
-            try {
-                productoServicio.modificarProducto(idProductoElegido, nombre, cantidad, precio, descripcion);
+        if (eleccion.equalsIgnoreCase("editar")) {
 
-              
-                modelo.put("exito", "Producto modificado con éxito!!");
+            Optional<Producto> respuesta = productoRepositorio.findById(idProducto);
+
+            if (respuesta.isPresent()) {
+                Producto productoElegido = new Producto();
+                productoElegido = respuesta.get();
+
+                modelo.put("productoElegido", productoElegido);
+
+            }
+        }
+        if (eleccion.equalsIgnoreCase("eliminar")) {
+
+            try {
+                productoServicio.bajaProducto(idProducto);
+
+                modelo.put("exito", "El producto se quitó del catálogo");
+                
+                List<Producto> productos = productoRepositorio.buscarTodosPorProductor(productoRepositorio.getById(idProducto).getProductor().getId());
+
+            modelo.put("productos", productos);
+
+            Producto productoElegido;
+            modelo.put("productoElegido", null);
+
+            List<String> opciones = new ArrayList();
+            opciones.add("editar");
+            opciones.add("eliminar");
+            modelo.put("opciones", opciones);
+
 
             } catch (Exception e) {
 
                 e.getMessage();
-                modelo.put("error", "No se han podido guardar las modificaciones");
+                modelo.put("error", "No se han podido eliminar el producto");
+                
+                List<Producto> productos = productoRepositorio.buscarTodosPorProductor(productoRepositorio.getById(idProducto).getProductor().getId());
+
+            modelo.put("productos", productos);
+
+            Producto productoElegido;
+            modelo.put("productoElegido", null);
+
+            List<String> opciones = new ArrayList();
+            opciones.add("editar");
+            opciones.add("eliminar");
+            modelo.put("opciones", opciones);
+
             }
-            return "editar-producto";
+
         }
+        return "editar-producto.html";
+
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PRODUCTOR')")
+    @PostMapping("/editarProducto")
+    public String editarProducto(ModelMap modelo, HttpSession session, @RequestParam String idProductoElegido, String idUsuario, @RequestParam String nombre, @RequestParam Integer cantidad,
+            @RequestParam Double precio, @RequestParam String descripcion, @RequestParam String varietal, @RequestParam(required = false) Set<MultipartFile> imagenes) throws Exception {
+
+        Usuario login = (Usuario) session.getAttribute("usuarioSession");
+        if (login == null || !login.getId().equalsIgnoreCase(idUsuario)) {
+            return "redirect:/index.html";
+        }
+
+        try {
+            productoServicio.modificarProducto(imagenes, idProductoElegido, nombre, cantidad, precio, descripcion, varietal);
+
+            modelo.put("exito", "Producto modificado con éxito");
+
+            List<Producto> productos = productoRepositorio.buscarTodosPorProductor(productoRepositorio.getById(idProductoElegido).getProductor().getId());
+
+            modelo.put("productos", productos);
+
+            Producto productoElegido;
+            modelo.put("productoElegido", null);
+
+            List<String> opciones = new ArrayList();
+            opciones.add("editar");
+            opciones.add("eliminar");
+            modelo.put("opciones", opciones);
+
+        } catch (Exception e) {
+
+            e.getMessage();
+            modelo.put("error",e.getMessage());
+            
+           
+
+            List<Producto> productos = productoRepositorio.buscarTodosPorProductor(productoRepositorio.getById(idProductoElegido).getProductor().getId());
+
+            modelo.put("productos", productos);
+
+            Producto productoElegido;
+            modelo.put("productoElegido", null);
+
+            List<String> opciones = new ArrayList();
+            opciones.add("editar");
+            opciones.add("eliminar");
+            modelo.put("opciones", opciones);
+        }
+        return "editar-producto.html";
+    }
 
 }
