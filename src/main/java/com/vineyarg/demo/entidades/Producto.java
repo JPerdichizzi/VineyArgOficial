@@ -1,7 +1,9 @@
+
 package com.vineyarg.demo.entidades;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
+
 
 @Entity
 public class Producto implements Serializable {
@@ -28,7 +31,6 @@ public class Producto implements Serializable {
     private Double precio;
     private String descripcion;
     private String varietal;
-    private String region;
     @ManyToOne
     private Productor productor;
     private String sku;
@@ -37,17 +39,17 @@ public class Producto implements Serializable {
     private int promedioValoraciones;
     @ManyToOne
     private Compra compra;
-
+    
     private boolean alta;
-
-    @ElementCollection(targetClass = Imagenes.class)
+    
+    @ElementCollection(targetClass=Imagenes.class)
     @OneToMany
-    private List<Imagenes> imagenes;
-
+    private Set<Imagenes> imagenes;
+    
     public Producto() {
     }
 
-    public Producto(String id, String nombre, Integer cantidad, Double precio, String descripcion, String varietal, Productor productor, String sku, int cantidadVecesValorado, int cantidadValoraciones, int promedioValoraciones, Compra compra, boolean alta, List<Imagenes> imagenes) {
+    public Producto(String id, String nombre, Integer cantidad, Double precio, String descripcion, String varietal, Productor productor, String sku, int cantidadVecesValorado, int cantidadValoraciones, int promedioValoraciones, Compra compra, boolean alta, Set<Imagenes> imagenes) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
@@ -64,6 +66,8 @@ public class Producto implements Serializable {
         this.imagenes = imagenes;
     }
 
+  
+
     public Compra getCompra() {
         return compra;
     }
@@ -72,6 +76,7 @@ public class Producto implements Serializable {
         this.compra = compra;
     }
 
+   
     public String getId() {
         return id;
     }
@@ -168,26 +173,16 @@ public class Producto implements Serializable {
         this.alta = alta;
     }
 
-    public List<Imagenes> getImagenes() {
+    public Set<Imagenes> getImagenes() {
         return imagenes;
     }
 
-    public void setImagenes(List<Imagenes> imagenes) {
+    public void setImagenes(Set<Imagenes> imagenes) {
         this.imagenes = imagenes;
     }
 
-    /**
-     * @return the region
-     */
-    public String getRegion() {
-        return region;
-    }
 
-    /**
-     * @param region the region to set
-     */
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
+    
+    
+    
 }
