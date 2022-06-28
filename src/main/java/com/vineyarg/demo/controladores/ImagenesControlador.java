@@ -5,16 +5,20 @@
  */
 package com.vineyarg.demo.controladores;
 
+import com.vineyarg.demo.entidades.Imagenes;
 import com.vineyarg.demo.entidades.Producto;
 import com.vineyarg.demo.entidades.Productor;
 import com.vineyarg.demo.entidades.Usuario;
 import com.vineyarg.demo.errores.Excepcion;
+import com.vineyarg.demo.repositorios.ImagenesRepositorio;
 import com.vineyarg.demo.repositorios.ProductoRepositorio;
 import com.vineyarg.demo.repositorios.ProductorRepositorio;
 import com.vineyarg.demo.repositorios.UsuarioRepositorio;
 import com.vineyarg.demo.servicios.ProductoServicio;
 import com.vineyarg.demo.servicios.ProductorServicio;
 import com.vineyarg.demo.servicios.UsuarioServicio;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,99 +33,123 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/imagen")
 public class ImagenesControlador {
-    
-    @Autowired
+
+      @Autowired
     private ProductoServicio productoServicio;
-    
+
     @Autowired
     private ProductoRepositorio productoRepositorio;
-    
+
     @Autowired
     private UsuarioServicio usuarioServicio;
-    
+
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
-    
+
     @Autowired
     ProductorServicio productorServicio;
 
     @Autowired
     private ProductorRepositorio productorRepositorio;
     
-    
-    @GetMapping("/producto/{id}")
-    public ResponseEntity<byte[]> fotoProducto(@PathVariable String id){
-        
-        try {
-            Producto producto = productoRepositorio.getById(id);
-            
-            if(producto.getImagenes().get(0) == null) {
-                throw new Excepcion("Producto sin imágen");
-            } else {
-                 byte[] imagen = producto.getImagenes().get(0).getContenido();
-        
-        HttpHeaders headers = new HttpHeaders();
-        
-      
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
-        }
-        }
-       catch (Excepcion e) {
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            
-       
-       }
-         }
-    
-        @GetMapping("/usuarioimagen")
-        public ResponseEntity<byte[]> fotoUsuarioComun(@PathVariable String id){
-        
-        try {
-            Usuario usuario = usuarioRepositorio.getById(id);
-            
-            if(usuario.getImagen() == null) {
-                throw new Excepcion("Usuario sin imágen");
-            } else {
-                 byte[] imagen = usuario.getImagen().getContenido();
-        
-        HttpHeaders headers = new HttpHeaders();
-        
-      
-        headers.setContentType(MediaType.ALL);
-        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
-        }
-        }
-       catch (Excepcion e) {
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            
-       
-       }
-        }
-        @GetMapping("/productor/{id}")
-        public ResponseEntity<byte[]> fotoProductor(@PathVariable String id){
-        
-        try {
-            Productor productor = productorRepositorio.getById(id);
-            
-            if(productor.getImagen() == null) {
-                throw new Excepcion("Usuario sin imágen");
-            } else {
-                 byte[] imagen = productor.getImagen().getContenido();
-        
-        HttpHeaders headers = new HttpHeaders();
-        
-      
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
-        }
-        }
-       catch (Excepcion e) {
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            
-       
-       }
-        }
+    @Autowired
+    private ImagenesRepositorio imagenesRepositorio;
 
     
+    //EL DE ABAJO MUESTRA SOLO LA PRIMERA IMAGEN DEL PRODUCTO
+    @GetMapping("/productoimagen/{idProducto}")
+    public ResponseEntity<byte[]> fotoProductoPorIdProducto(@PathVariable String idProducto) {
+
+        try {
+            Producto producto = productoRepositorio.getById(idProducto);
+
+            if (producto.getImagenes().isEmpty()) {
+                throw new Excepcion("Producto sin imágen");
+            } else {
+
+                Set<Imagenes> imagenes = new HashSet();
+
+                imagenes = producto.getImagenes();
+
+                for (Imagenes imagenFor : imagenes) {
+
+                    byte[] imagen = imagenFor.getContenido();
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.IMAGE_JPEG);
+
+                    return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
+
+                }
+
+//               
+            }
+        } catch (Excepcion e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+        return null;
+    }
+    
+    //ESTE MUESTRA TODAS LAS IMAGENES QUE EL PRODUCTO TIENE CARGADAS    
+     @GetMapping("/productoimagen-idImagen/{idImagen}")
+    public ResponseEntity<byte[]> fotoProducto(@PathVariable String idImagen) {
+
+        Imagenes imagen = imagenesRepositorio.getById(idImagen);
+        byte[] foto = imagen.getContenido();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(foto, headers, HttpStatus.OK);
+       
+    }
+    
+    
+
+    @GetMapping("/usuarioimagen/{id}")
+    public ResponseEntity<byte[]> fotoUsuarioComun(@PathVariable String id) {
+
+        try {
+            Usuario usuario = usuarioRepositorio.getById(id);
+
+            if (usuario.getImagen() == null) {
+                throw new Excepcion("Usuario sin imágen");
+            } else {
+
+                byte[] imagen = usuario.getImagen().getContenido();
+
+                HttpHeaders headers = new HttpHeaders();
+
+                headers.setContentType(MediaType.IMAGE_JPEG);
+
+                return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
+            }
+        } catch (Excepcion e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+    }
+//        @GetMapping("/productor/{id}")
+//        public ResponseEntity<byte[]> fotoProductor(@PathVariable String id){
+//        
+//        try {
+//            Productor productor = productorRepositorio.getById(id);
+//            
+//            if(productor.getImagen() == null) {
+//                throw new Excepcion("Usuario sin imágen");
+//            } else {
+//                 byte[] imagen = productor.getImagen().getContenido();
+//        
+//        HttpHeaders headers = new HttpHeaders();
+//        
+//      
+//        headers.setContentType(MediaType.IMAGE_JPEG);
+//        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
+//        }
+//        }
+//       catch (Excepcion e) {
+//           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            
+//       
+//       }
+//        }
+
 }

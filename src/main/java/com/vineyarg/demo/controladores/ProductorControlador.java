@@ -72,9 +72,10 @@ public class ProductorControlador {
             @RequestParam String clave1, @RequestParam String clave2, @RequestParam String descripcion, @RequestParam String region, @RequestParam MultipartFile archivo) throws Exception {
         try {
 
+            
             productorServicio.guardar(nombre, razonSocial, domicilio, correo, clave1, clave2, descripcion, region, archivo);
 
-            usuarioServicio.registrarUsuario(null, nombre, null, null, correo, clave1, clave2, null, TipoUsuario.PRODUCTOR);
+            usuarioServicio.registrarUsuario(archivo, nombre, null, null, correo, clave1, clave2, null, TipoUsuario.PRODUCTOR);
 
         } catch (Exception e) {
 
@@ -114,10 +115,11 @@ public class ProductorControlador {
 
             Productor productor = new Productor();
             productor = productorRepositorio.BuscarProductorPorCorreo(usuario.getCorreo());
+            
 
             modelo.put("regiones", Regiones.values());
 
-            modelo.put("perfil", productor);
+            modelo.put("productor", productor);
 
             modelo.put("perfilUsuario", usuario);
 
@@ -163,8 +165,8 @@ public class ProductorControlador {
             modelo.put("perfilUsuario", usuario);
 
             productorServicio.modificar(idUsuario, idProductor, nombre, razonSocial, domicilio, correo, clave1, clave2, descripcion, region, archivo);
-
-        } catch (Exception ex) {
+            usuarioServicio.modificarUsuario(idUsuario, archivo, correo, clave1, clave2);
+        } catch (Excepcion ex) {
 
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
@@ -176,6 +178,25 @@ public class ProductorControlador {
             modelo.put("descripcion", descripcion);
             modelo.put("regiones", Regiones.values());
 
+            Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
+
+            Usuario usuario = new Usuario();
+            Productor productor = new Productor();
+            if (respuesta.isPresent()) {
+
+                usuario = respuesta.get();
+
+            }
+
+            Optional<Productor> respuesta1 = productorRepositorio.findById(idProductor);
+
+            if (respuesta1.isPresent()) {
+
+                productor = respuesta1.get();
+
+            }
+            modelo.put("productor", productor);
+            modelo.put("perfilUsuario", usuario);
             return "editar-productor";
 
         }
