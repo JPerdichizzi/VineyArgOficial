@@ -85,133 +85,139 @@
         <!-- Fin del header -->
 
 
-     
-
-        
-    <div class="contenedor__grande">
-        <div class="producto__container">
-            <div class="titulo">Moificá la bodega!</div>
 
 
-            <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
-            <p> A continuación podés modificar algunos de los datos de tu empresa </p>
-            <form action="/editar-productor" method="POST" enctype="multipart/form-data">
+        <div class="contenedor_division">
+            <div class="contenedor__grande">
+                <div class="producto__container">
+                    <div class="titulo">Moificá la bodega!</div>
 
-                <input th:if="${session.usuarioSession != null}" class="control" type="hidden" name="idUsuario" id=""
-                    th:value="${session.usuarioSession.id}">
 
-                <input class="control" type="hidden" name="idProductor" id="" th:value="${perfil.id}">
+                    <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
+                    <p> A continuación podés modificar algunos de los datos de tu empresa </p>
+                    <form action="/editar-productor" method="POST" enctype="multipart/form-data">
 
-                <div class="input_editar">
-                    <div class="input_caja">
-                        <input class="control" type="text" name="nombre" id="" placeholder="Ingresar el Nombre"
-                            required="" th:value="${perfil.nombre}">
-                    </div>
-                    <div class="input_caja">
-                        <input class="control" type="text" name="razonSocial" id=""
-                            placeholder="Ingresar la Razon Social" required="" th:value="${perfil.razonSocial}">
-                    </div>
+                        <input th:if="${session.usuarioSession != null}" class="control" type="hidden" name="idUsuario" id=""
+                               th:value="${session.usuarioSession.id}">
 
-                    <div class="input_caja">
-                        <input class="control" type="text" name="domicilio" id="" placeholder="Ingresar el Domicilio"
-                            required="" th:value="${perfil.domicilio}">
-                    </div>
-                    <div class="input_caja">
-                        <input class="control" type="email" name="correo" id="" placeholder="Ingresar un Email"
-                            required="" th:value="${perfil.correo}">
-                    </div>
-                    <div class="input_caja">
-                        <input class="control" type="password" name="clave1" id="" placeholder="Ingresar una Contraseña"
-                            required="" th:value="${perfil.clave}">
-                    </div>
-                    <div class="input_caja">
-                        <input class="control" type="password" name="clave2" id="" placeholder="Repita la contraseña"
-                            required="" th:value="${perfil.clave}">
-                    </div>
-                    <div class="input_caja">
-                        <input class="control" type="text" name="descripcion" id=""
-                            placeholder="Ingresar una Descripción de su bogega" required=""
-                            th:value="${perfil.descripcion}">
-                    </div>
-                    <div class="input_caja">
-                        <select class="control" name="region">
-                            <option th:each="region : ${regiones}" name="region" th:value="${region}"
-                                placeholder="Ingresar una región" required="" th:text="${region}"></option>
-                        </select>
-                    </div>
+                        <input class="control" type="hidden" name="idProductor" id="" th:value="${perfil.id}">
 
+                        <div class="input_editar">
+                            <div class="input_caja">
+                                <input class="control" type="text" name="nombre" id="" placeholder="Ingresar el Nombre"
+                                       required="" th:value="${perfil.nombre}">
+                            </div>
+                            <div class="input_caja">
+                                <input class="control" type="text" name="razonSocial" id=""
+                                       placeholder="Ingresar la Razon Social" required="" th:value="${perfil.razonSocial}">
+                            </div>
+
+                            <div class="input_caja">
+                                <input class="control" type="text" name="domicilio" id="" placeholder="Ingresar el Domicilio"
+                                       required="" th:value="${perfil.domicilio}">
+                            </div>
+                            <div class="input_caja">
+                                <input class="control" type="email" name="correo" id="" placeholder="Ingresar un Email"
+                                       required="" th:value="${perfil.correo}">
+                            </div>
+                            <div class="input_caja">
+                                <input class="control" type="password" name="clave1" id="" placeholder="Ingresar una Contraseña"
+                                       required="" th:value="${perfil.clave}">
+                            </div>
+                            <div class="input_caja">
+                                <input class="control" type="password" name="clave2" id="" placeholder="Repita la contraseña"
+                                       required="" th:value="${perfil.clave}">
+                            </div>
+                            <div class="input_caja">
+                                <input class="control" type="text" name="descripcion" id=""
+                                       placeholder="Ingresar una Descripción de su bogega" required=""
+                                       th:value="${perfil.descripcion}">
+                            </div>
+                            <div class="input_caja">
+                                <select class="control" name="region">
+                                    <option th:each="region : ${regiones}" name="region" th:value="${region}"
+                                            placeholder="Ingresar una región" required="" th:text="${region}"></option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <p><input type="checkbox" required=""> Estoy de acuerdo con <a
+                                href="/HTML/terminos-condiciones.html">Terminos y Condiciones</a></p>
+                        <input class="boton" type="submit" value="Actualizar perfil">
+
+                        </div>
+                        </div>      
+                        <div class="contenedor__grande">
+                            <div class="producto__container">
+                            <div class="titulo">Elimina tu bodega</div>
+
+                            <p> A continuación podés eliminar los datos de la bodega/empresa </p>
+                                </form>
+                                <form action="/eliminarProductor" method="POST" enctype="multipart/form-data">
+
+                                    <p th:if="${error1 != null}" th:text="${error1}" style="color:red"; ></p>
+
+                                    <input th:if="${session.usuarioSession != null}" class="control" type="hidden" name="idUsuario" id=""
+                                           th:value="${session.usuarioSession.id}"> 
+
+                                    <input class="control" type="hidden" name="idProductor" id="" th:value="${perfil.id}">
+                                    <div class="input_editar">
+                                        <div class="input_caja">
+                                            <input class="control" type="email" name="correo" placeholder="Ingresar su Email" id=""
+                                                   required="" th:value="${perfil.correo}">
+                                        </div>
+
+                                        <div class="input_caja">
+                                            <input class="control" type="password" name="clave" id="" placeholder="Ingresar su Contraseña"
+                                                   required="" th:value="${clave}">
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <p><input type="checkbox" required=""> Quiero darme de baja </p>
+                                    <input class="boton" type="submit" value="Eliminar perfil">
+                                </form>
+                            </div>
+                        </div>
                 </div>
-                <p><input type="checkbox" required=""> Estoy de acuerdo con <a
-                        href="/HTML/terminos-condiciones.html">Terminos y Condiciones</a></p>
-                <input class="boton" type="submit" value="Actualizar perfil">
 
+                <!-- Footer -->
 
-            </form>
-            <form action="/eliminarProductor" method="POST" enctype="multipart/form-data">
-
-                <p th:if="${error1 != null}" th:text="${error1}" style="color:red"; ></p>
-
-                <input th:if="${session.usuarioSession != null}" class="control" type="hidden" name="idUsuario" id=""
-                    th:value="${session.usuarioSession.id}"> 
-                    
-                <input class="control" type="hidden" name="idProductor" id="" th:value="${perfil.id}">
-                <div class="input_editar">
-                    <div class="input_caja">
-                        <input class="control" type="email" name="correo" placeholder="Ingresar su Email" id=""
-                            required="" th:value="${perfil.correo}">
+                <div class="footer">
+                    <div class="footer-a">
+                        <div class="footer-columna-1">
+                            <img src="/imagenes/logofinalTransparente.png" alt="Logo VineyArg Footer" width="300px">
+                            <h3>
+                                ¡Comprá los mejores vinos Aquí!
+                            </h3>
+                        </div>
+                        <div class="footer-columna-2">
+                            <h3>Navegacion</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="">Regiones</a></li>
+                                <li><a href="">Bodegas</a></li>
+                                <li><a href="/tienda">Tienda</a></li>
+                                <li><a href="mailto:vineyarg@vineyargentina.com.ar">Contacto</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-columna-3">
+                            <h3>Nuestras Redes</h3>
+                            <div class="redes">
+                                <a href="" class="fa fa-instagram"></a>
+                                <a href="" class="fa fa-linkedin"></a>
+                                <a href="" class="fa-solid fa-at"></a>
+                                <a href="" class="fa fa-twitter"></a>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="input_caja">
-                        <input class="control" type="password" name="clave" id="" placeholder="Ingresar su Contraseña"
-                            required="" th:value="${clave}">
-                    </div>
-                </div>
-
-
-                <p><input type="checkbox" required=""> Quiero darme de baja </p>
-                <input class="boton" type="submit" value="Eliminar perfil">
-            </form>
-        </div>
-    </div>
-
-
-        <!-- Footer -->
-
-        <div class="footer">
-            <div class="footer-a">
-                <div class="footer-columna-1">
-                    <img src="/imagenes/logofinalTransparente.png" alt="Logo VineyArg Footer" width="300px">
-                    <h3>
-                        ¡Comprá los mejores vinos Aquí!
-                    </h3>
-                </div>
-                <div class="footer-columna-2">
-                    <h3>Navegacion</h3>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="">Regiones</a></li>
-                        <li><a href="">Bodegas</a></li>
-                        <li><a href="/tienda">Tienda</a></li>
-                        <li><a href="mailto:vineyarg@vineyargentina.com.ar">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="footer-columna-3">
-                    <h3>Nuestras Redes</h3>
-                    <div class="redes">
-                        <a href="" class="fa fa-instagram"></a>
-                        <a href="" class="fa fa-linkedin"></a>
-                        <a href="" class="fa-solid fa-at"></a>
-                        <a href="" class="fa fa-twitter"></a>
+                    <div class="footer-b">
+                        <small>&copy; <b>VineyArg</b> - Todos los Derechos Reservados. </small>
                     </div>
                 </div>
-            </div>
-            <div class="footer-b">
-                <small>&copy; <b>VineyArg</b> - Todos los Derechos Reservados. </small>
-            </div>
-        </div>
 
-        <!-- Fin del Footer -->
+                <!-- Fin del Footer -->
 
-        <div class="separador"></div>
-    </body>
-</html>
+                <div class="separador"></div>
+                </body>
+                </html>

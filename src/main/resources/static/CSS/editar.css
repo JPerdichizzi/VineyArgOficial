@@ -5,6 +5,10 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+.contenedor_division{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
 .contenedor__grande {
     display: flex;
     margin-top: 10px;
