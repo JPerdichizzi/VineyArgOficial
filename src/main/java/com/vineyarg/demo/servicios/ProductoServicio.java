@@ -50,7 +50,7 @@ public class ProductoServicio {
         producto.setAlta(true);
         producto.setCantidadValoraciones(0);
         producto.setCantidadVecesValorado(0);
-        producto.setPromedioValoraciones(0);
+        producto.setPromedioValoraciones(0.00);
 //        producto.setValoraciones(valoraciones);
         //producto.setAlta(true);
 
@@ -126,8 +126,11 @@ public class ProductoServicio {
 
             producto.setCantidadVecesValorado(producto.getCantidadVecesValorado() + 1);
             producto.setCantidadValoraciones(producto.getCantidadValoraciones() + valoracion);
-            producto.setPromedioValoraciones(producto.getCantidadValoraciones() / producto.getCantidadVecesValorado());
-
+            Double doble1 = Double.valueOf(producto.getCantidadVecesValorado());
+            Double doble2 = Double.valueOf(producto.getCantidadValoraciones());
+            Double doble3 = Double.valueOf(doble2 / doble1);
+            doble3 = (Double) (Math.round(doble3 * 100.0) / 100.0);
+            producto.setPromedioValoraciones(doble3);
             productoRepositorio.save(producto);
         }
     }

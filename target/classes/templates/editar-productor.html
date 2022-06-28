@@ -85,7 +85,8 @@
         <!-- Fin del header -->
 
 
-
+ <a href="/logout"> Cerrar sesion </a><br>
+        <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'PRODUCTOR'}" th:href="@{/productorweb(id=${session.usuarioSession.id})}"> Volver al menú principal</a>
 
         <div class="contenedor_division">
             <div class="contenedor__grande">
@@ -100,38 +101,38 @@
                         <input th:if="${session.usuarioSession != null}" class="control" type="hidden" name="idUsuario" id=""
                                th:value="${session.usuarioSession.id}">
 
-                        <input class="control" type="hidden" name="idProductor" id="" th:value="${perfil.id}">
+                        <input class="control" type="hidden" name="idProductor" id="" th:value="${productor.id}">
 
                         <div class="input_editar">
                             <div class="input_caja">
                                 <input class="control" type="text" name="nombre" id="" placeholder="Ingresar el Nombre"
-                                       required="" th:value="${perfil.nombre}">
+                                       required="" th:value="${productor.nombre}">
                             </div>
                             <div class="input_caja">
                                 <input class="control" type="text" name="razonSocial" id=""
-                                       placeholder="Ingresar la Razon Social" required="" th:value="${perfil.razonSocial}">
+                                       placeholder="Ingresar la Razon Social" required="" th:value="${productor.razonSocial}">
                             </div>
 
                             <div class="input_caja">
                                 <input class="control" type="text" name="domicilio" id="" placeholder="Ingresar el Domicilio"
-                                       required="" th:value="${perfil.domicilio}">
+                                       required="" th:value="${productor.domicilio}">
                             </div>
                             <div class="input_caja">
                                 <input class="control" type="email" name="correo" id="" placeholder="Ingresar un Email"
-                                       required="" th:value="${perfil.correo}">
+                                       required="" th:value="${productor.correo}">
                             </div>
                             <div class="input_caja">
                                 <input class="control" type="password" name="clave1" id="" placeholder="Ingresar una Contraseña"
-                                       required="" th:value="${perfil.clave}">
+                                       required="" th:value="${productor.clave}">
                             </div>
                             <div class="input_caja">
                                 <input class="control" type="password" name="clave2" id="" placeholder="Repita la contraseña"
-                                       required="" th:value="${perfil.clave}">
+                                       required="" th:value="${productor.clave}">
                             </div>
                             <div class="input_caja">
                                 <input class="control" type="text" name="descripcion" id=""
                                        placeholder="Ingresar una Descripción de su bogega" required=""
-                                       th:value="${perfil.descripcion}">
+                                       th:value="${productor.descripcion}">
                             </div>
                             <div class="input_caja">
                                 <select class="control" name="region">
@@ -160,11 +161,11 @@
                                     <input th:if="${session.usuarioSession != null}" class="control" type="hidden" name="idUsuario" id=""
                                            th:value="${session.usuarioSession.id}"> 
 
-                                    <input class="control" type="hidden" name="idProductor" id="" th:value="${perfil.id}">
+                                    <input class="control" type="hidden" name="idProductor" id="" th:value="${productor.id}">
                                     <div class="input_editar">
                                         <div class="input_caja">
                                             <input class="control" type="email" name="correo" placeholder="Ingresar su Email" id=""
-                                                   required="" th:value="${perfil.correo}">
+                                                   required="" th:value="${productor.correo}">
                                         </div>
 
                                         <div class="input_caja">
