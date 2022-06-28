@@ -47,7 +47,7 @@ public class TiendaControlador {
         List<Producto> productos = new ArrayList();
         
         
-        
+        //con el forEach descartamos productos dados de baja o que correspondan a productores dados de baja
         for (Producto producto : productosT) {
             if (producto.isAlta() && producto.getProductor().isAlta()) {
                 productos.add(producto);
@@ -90,17 +90,5 @@ public class TiendaControlador {
         modelo.put("productosSimilares", productosSimilares);
 
         return "producto.html";
-    }
-    
-        @GetMapping("/region-tienda")
-    public String mostrarPorRegion(ModelMap modelo, String region) {
-
-        //productoPorRegion es el identificador que va a viajar al html(debe coincidir con el th)/lo segundo es el objeto de java que quiero enviar
-       
-        List <Producto> productosPorRegion = new ArrayList();
-        modelo.addAttribute("productosPorRegion", productoRepositorio.buscarPorRegion(region));
-
-        return "region-tienda.html";
-       
     }
 }

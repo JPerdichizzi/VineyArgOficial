@@ -10,11 +10,9 @@ import com.vineyarg.demo.repositorios.ProductoRepositorio;
 import com.vineyarg.demo.repositorios.ProductorRepositorio;
 import com.vineyarg.demo.repositorios.UsuarioRepositorio;
 import com.vineyarg.demo.servicios.ProductoServicio;
-import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -79,7 +76,7 @@ public class ProductoControlador {
     @PreAuthorize("hasAnyRole('ROLE_PRODUCTOR')")
     @PostMapping("/agregarProducto")
     public String agregarProducto(ModelMap modelo, @RequestParam String idProductor, @RequestParam String nombre, @RequestParam Integer cantidad, @RequestParam Double precio, @RequestParam String descripcion,
-            @RequestParam String varietal, @RequestParam String SKU, @RequestParam(required = false) Set<MultipartFile> imagenes) throws Exception {
+            @RequestParam String varietal, @RequestParam String SKU, @RequestParam(required = false) List<MultipartFile> imagenes) throws Exception {
 
         try {
 
@@ -91,7 +88,7 @@ public class ProductoControlador {
 
                 modelo.put("perfil", productorDelProducto);
 
-                productoServicio.agregarProducto(imagenes, nombre, cantidad, precio, descripcion, varietal, productorDelProducto, SKU);
+                productoServicio.agregarProducto(null, nombre, cantidad, precio, descripcion, varietal, productorDelProducto, SKU);
 
             }
 
@@ -193,7 +190,7 @@ public class ProductoControlador {
     @PreAuthorize("hasAnyRole('ROLE_PRODUCTOR')")
     @PostMapping("/editarProducto")
     public String editarProducto(ModelMap modelo, HttpSession session, @RequestParam String idProductoElegido, String idUsuario, @RequestParam String nombre, @RequestParam Integer cantidad,
-            @RequestParam Double precio, @RequestParam String descripcion, @RequestParam String varietal, @RequestParam(required = false) Set<MultipartFile> imagenes) throws Exception {
+            @RequestParam Double precio, @RequestParam String descripcion, @RequestParam String varietal, @RequestParam(required = false) List<MultipartFile> imagenes) throws Exception {
 
         Usuario login = (Usuario) session.getAttribute("usuarioSession");
         if (login == null || !login.getId().equalsIgnoreCase(idUsuario)) {
@@ -201,7 +198,7 @@ public class ProductoControlador {
         }
 
         try {
-            productoServicio.modificarProducto(imagenes, idProductoElegido, nombre, cantidad, precio, descripcion, varietal);
+            productoServicio.modificarProducto(idProductoElegido, nombre, cantidad, precio, descripcion, varietal);
 
             modelo.put("exito", "Producto modificado con éxito");
 
@@ -238,30 +235,5 @@ public class ProductoControlador {
         }
         return "editar-producto.html";
     }
-    
-   
-    @GetMapping("/valorar")
-    public String editarproducto(ModelMap modelo, String valoracion, String idProducto, HttpSession session) throws Excepcion {
 
-        int valoracionInt = parseInt(valoracion);
-        
-        productoServicio.valorarProducto(idProducto, valoracionInt);
-        
-        List<Producto> productosT = productoRepositorio.findAll();
-        List<Producto> productos = new ArrayList();
-        
-        
-        
-        for (Producto producto : productosT) {
-            if (producto.isAlta() && producto.getProductor().isAlta()) {
-                productos.add(producto);
-                
-               
-            }
-        }
-        modelo.put("productos", productos);
-
-        return "tienda.html";
-    }
-    
 }
