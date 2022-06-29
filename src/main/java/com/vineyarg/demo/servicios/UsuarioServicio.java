@@ -156,7 +156,7 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setClave(encriptada);
             usuario.setAlta(true);
 
-            if (archivo != null) {
+            if (!archivo.isEmpty()) {
                 Imagenes imagen = new Imagenes();
                 imagenesServicio.guardarNueva(archivo);
 

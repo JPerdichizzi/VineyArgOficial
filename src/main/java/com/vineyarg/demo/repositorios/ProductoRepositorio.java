@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface ProductoRepositorio extends JpaRepository<Producto, String> {
 
-     @Query("SELECT p FROM Producto p WHERE p.nombre= :nombre")
+    @Query("SELECT p FROM Producto p WHERE p.nombre= :nombre")
     public Producto buscarPorNombre(@Param("nombre") String nombre);
 
     @Query("SELECT p from Producto p WHERE p.productor.id= :idProductor")
@@ -38,5 +38,6 @@ public interface ProductoRepositorio extends JpaRepository<Producto, String> {
     @Query("SELECT p FROM Producto p WHERE p.productor.region= :region")
     public List<Producto> buscarPorRegion(@Param("region") String region);
 
-    
+    @Query("SELECT p FROM Producto p WHERE p.productor.region= :region")
+    public Producto buscarPorRegion(@Param("region") String region);
 }
