@@ -74,7 +74,7 @@
                         <li class="fa-solid fa-user nav__item"></li>
                     </a>
 
-                    <li class="fa-solid fa-right-from-bracket nav__item"><a th:if="${session.usuarioSession != null}" th:href="@{/logout}"> </a><br></li>
+                    <a th:if="${session.usuarioSession != null}" th:href="@{/logout}"><li class="fa-solid fa-right-from-bracket nav__item"></li> </a>
 
                 </ul>
             </div>
