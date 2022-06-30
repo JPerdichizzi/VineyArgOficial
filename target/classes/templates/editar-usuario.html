@@ -84,10 +84,6 @@
         </nav>
         <!-- Fin del header -->
 
-        <a href="/logout"> Cerrar sesion </a><br>
-    <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'USUARIOCOMUN'}" th:href="@{/usuarioweb(id=${session.usuarioSession.id})}">  Volver al menú principal</a>
-    <a th:if="${session.usuarioSession.tipoUsuario.toString() == 'ADMINISTRADOR'}" th:href="@{/administradorweb(id=${session.usuarioSession.id})}">  Volver al menú principal</a>
-    
         <div class="contenedor__grande">
             <div class="producto__container">
                 <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
