@@ -151,7 +151,17 @@
                     <h5>TOTAL DE LA COMPRA</h5>
                     <div class="d-flex justify-content-between">
                         <h6>Subtotal antes de envío</h6>
-                        <p th:if="${subtotal != null}" th:text="${subtotal}"></p>
+                        <p th:if="${subtotal != null}" th:text="${'$' +subtotal}"></p>
+                    </div>
+                    <hr class="second-hr">
+                    <div class="d-flex justify-content-between">
+                        <h6>Descuento por acumulación de compras anteriores (si sumaste más de $15.000 en compras anteriores y tu compra actual supera los $3.000) </h6>
+                        <p th:if="${descuento != null}" th:text="${'-$' + descuento}"></p>
+                    </div>
+                    <hr class="second-hr">
+                    <div class="d-flex justify-content-between">
+                        <h6>Descuento por cupón </h6>
+                        <p th:if="${cupon != null}" th:text="${'-$' + cupon}"></p>
                     </div>
                     <hr class="second-hr">
                     <div class="d-flex justify-content-between">
@@ -161,7 +171,7 @@
                     <hr class="second-hr">
                     <div class="d-flex justify-content-between">
                         <h6>Total</h6>
-                        <p th:if="${totalCompra != null}" th:text="${totalCompra}"> </p>
+                        <p th:if="${totalCompra != null}" th:text="${'$' + totalCompra}"> </p>
                     </div>
                    
                     <a th:href="@{/checkout/(idCompra=${carrito.id})}" class="text-decoration-none"> <button id="botonCompra" class="ml-auto" >PROCEDER A LA COMPRA</button></a>

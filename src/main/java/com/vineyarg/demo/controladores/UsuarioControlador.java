@@ -61,10 +61,12 @@ public class UsuarioControlador {
     @Autowired
     private ItemCompraRepositorio itemCompraRepositorio;
 
-//    @GetMapping("/registro")
-//    public String registro() {
-//        return "registro.html";
-//    }
+   
+    
+    @GetMapping("/registro")
+    public String registro(HttpSession session) {
+        return "registro.html";
+    }
     
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR')")
     @GetMapping("/registro-admin")
@@ -73,7 +75,7 @@ public class UsuarioControlador {
     }
 
     @GetMapping("/logueo")
-    public String login(@RequestParam(required = false) String error, ModelMap modelo/*, @RequestParam(required = false) String faltaLogin*/) {
+    public String login(@RequestParam(required = false) String error, ModelMap modelo) {
         
         
         if(error != null) {
@@ -160,7 +162,7 @@ public class UsuarioControlador {
             return "registro-usuario.html";
         }
 
-        modelo.put("registrado", "Usuario registrado con éxito");
+        modelo.put("registrado", "Usuario registrado con éxito. Ahora podés ingresar con tus datos");
         return "login.html";
     }
 
@@ -263,6 +265,7 @@ public class UsuarioControlador {
             
             usuarioServicio.eliminarUsuario(id, correo, clave);
             
+            return "redirect:/logout";
 
         } } catch (Excepcion ex) {
             modelo.put("error1", ex.getMessage());
@@ -351,10 +354,17 @@ public class UsuarioControlador {
             compra.setEstadoCompra(EstadoCompra.ACEPTADA);
             compra.setObservacionesCompra(observaciones);
             
+            Usuario usuarioComprador = usuarioRepositorio.getById(compra.getUsuario().getId());
+            usuarioComprador.setTotalComprasEfectuadas(usuarioComprador.getTotalComprasEfectuadas() + 1);
+            usuarioComprador.setTotalDineroComprado(usuarioComprador.getTotalDineroComprado() + compra.getMontoFinal());
+            
             compraRepositorio.save(compra);
+            usuarioRepositorio.save(usuarioComprador);
+                    
             List<Compra> comprasNuevasPre = compraRepositorio.buscarComprasNuevas();
            List<Compra> comprasNuevas = new ArrayList();
 
+           
          System.out.println(decision);
 
         for (Compra compraNueva : comprasNuevasPre) {

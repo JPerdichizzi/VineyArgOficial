@@ -106,11 +106,11 @@
                         <p th:text="${'Identificador de la Compra ' + compra.id}" </p>
                         <p th:each="item : ${compra.itemCompra}" th:text="${'Producto comprado ' + item.producto.nombre}" </p>
                         <p th:each="item : ${compra.itemCompra}" th:text="${'Precio total pagado ' +  item.totalProducto}" </p>
-                        <p th:value="${'precio total con envío ' +  compra.montoFinal}" </p>
+                        <p th:value="${'precio total con envÃ­o ' +  compra.montoFinal}" </p>
                         <p th:value="${'Fecha de la compra ' +  compra.fechaCompra}" </p>
-                        <p th:text="${'Estado de tu compra ' +  estadoCompra}" </p>
+                        <p th:text="${'Estado de tu compra ' +  compra.estadoCompra}" </p>
                         <p th:text="${'Observaciones ' +  compra.observacionesCompra}" </p>
-                        <p>_______________________________________________</p>
+                        <p>_________________________________________</p>
                         <br>
                         
                     </div>

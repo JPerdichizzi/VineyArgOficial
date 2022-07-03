@@ -38,6 +38,6 @@ public interface ProductoRepositorio extends JpaRepository<Producto, String> {
     @Query("SELECT p FROM Producto p WHERE p.productor.region= :region")
     public List<Producto> buscarPorRegion(@Param("region") String region);
 
-    //@Query("SELECT p FROM Producto p WHERE p.productor.region= :region")
-    //public Producto buscarPorRegion(@Param("region") String region);
+//    @Query("SELECT p FROM Producto p WHERE p.productor.region= :region")
+//    public Producto buscarPorRegion(@Param("region") String region);
 }

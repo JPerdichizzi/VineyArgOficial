@@ -241,9 +241,9 @@ public class ProductoControlador {
     
    
     @GetMapping("/valorar")
-    public String valorarProducto(ModelMap modelo, String valoracion, String idProducto, HttpSession session) throws Excepcion {
+    public String valorarProducto(ModelMap modelo, Double valoracion, String idProducto, HttpSession session) throws Excepcion {
 
-        int valoracionInt = parseInt(valoracion);
+        Double valoracionInt = valoracion;
         
         productoServicio.valorarProducto(idProducto, valoracionInt);
         
@@ -261,7 +261,7 @@ public class ProductoControlador {
 //        }
 //        modelo.put("productos", productos);
 
-        return "redirect:tienda";
+        return "redirect:/tienda";
     }
     
 }

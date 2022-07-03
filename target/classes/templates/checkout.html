@@ -135,7 +135,16 @@
                             <h6 class="my-0">Cupón de Descuento</h6>
                             <small>CODIGO_PROMO</small>
                         </div>
-                        <span class="text-success">-$0,00</span>
+                        <span th:if="${cupon == null}" class="text-success" th:text="${'-$0,00'}"></span>
+                        <span th:if="${cupon != null}" class="text-success" th:text="${'-$ ' + cupon}"></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <div class="text-success">
+                            <h6 class="my-0">Descuento cliente premium</h6>
+                            
+                        </div>
+                        <span th:if="${descuento == null}" class="text-success" th:text="${'-$0,00'}"></span>
+                        <span th:if="${descuento != null}" class="text-success" th:text="${'-$ ' + descuento}"></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Total con envío incluído (ARS)</span>
@@ -175,7 +184,6 @@
                         <div class="input-group">
                             <input type="password" class="form-control" id="password" name="clave" placeholder="" th:value="${usuario.clave}">
                         </div>
-
                     </div>-->
 
                     <div class="mb-3">

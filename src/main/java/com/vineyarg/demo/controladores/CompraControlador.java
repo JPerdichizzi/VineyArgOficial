@@ -91,10 +91,9 @@ public class CompraControlador {
             Compra compraEnCurso = compraRepositorio.buscarComprasSinEnviarPorUsuario(usuario.getId());
 
             if (compraEnCurso != null) {
-               
+
                 compraServicio.preCompraCarrito(producto, idUsuario, cantidad);
-               
-                
+
                 modelo.put("compraEnCurso", "Se agregó el producto al carrito");
                 modelo.put("compra", compraEnCurso);
 //                System.out.println(compraEnCurso.getListaProductos());
@@ -196,10 +195,19 @@ public class CompraControlador {
                     modelo.put("itemsCompra", productosCompra);
 
                     modelo.put("subtotal", Math.round(totalSumaProductos * 100.0) / 100.0);
-
+                    
+                    if((compraAntesDePago.getUsuario().getTotalDineroComprado() > 15000) && (totalSumaProductos > 3000)) {
+                        
+                        Double descuento = totalSumaProductos * 10/100;
+                        modelo.put("descuento", descuento);
+                        
+                        totalSumaProductos = Double.valueOf(Math.round(totalSumaProductos - descuento));
+                        
+                    }
                     Double envio = 450.00;
                     Double totalCompraConEnvio = (totalSumaProductos + envio);
-
+                        
+                    
                     modelo.put("totalCompra", Math.round(totalCompraConEnvio * 100.0) / 100.0);
 
                 }
@@ -290,6 +298,17 @@ public class CompraControlador {
 
                 modelo.put("subtotal", Math.round(totalSumaProductos * 100.0) / 100.0);
 
+                
+                if((compraDef.getUsuario().getTotalDineroComprado() > 15000) && (totalSumaProductos > 3000)) {
+                        
+                         Double descuento = totalSumaProductos * 10/100;
+                        modelo.put("descuento", descuento);
+                        
+                        totalSumaProductos = Double.valueOf(Math.round(totalSumaProductos - descuento));
+                        
+                        
+                    }
+                
                 Double envio = 450.00;
                 Double totalCompraConEnvio = (totalSumaProductos + envio);
 

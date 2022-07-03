@@ -87,7 +87,7 @@
                 <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
                 <form action="/editarUsuario" method="POST" enctype="multipart/form-data">
 
-                    <div class="titulo">Modifica algunos de tus datos</div>
+                    <div class="titulo">Modificá algunos de tus datos</div>
                     <p>(Recordá que los datos personales no puede cambiarse)</p>
                     <div class="input_editar">
                         <input type="hidden" class="form-control" name="id" th:value="${perfil.id}"/> 
@@ -103,7 +103,7 @@
                     </div>
                     <input class="control" type="file" name="archivo" placeholder="Podés cambiar tu foto de perfil"  id="">
                     <br><br>
-                    <p><input type="checkbox" required=""> Estoy de acuerdo con <a href="/HTML/terminos-condiciones.html">Terminos y Condiciones</a></p>
+                    <p><input type="checkbox" required=""> Estoy de acuerdo con <a href="/HTML/terminos-condiciones.html">Términos y Condiciones</a></p>
 
                     <input class="boton" type="submit" value="Actualizar perfil">
                 </form>

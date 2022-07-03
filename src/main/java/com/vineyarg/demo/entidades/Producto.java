@@ -1,4 +1,3 @@
-
 package com.vineyarg.demo.entidades;
 
 import java.io.Serializable;
@@ -17,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
-
 @Entity
 public class Producto implements Serializable {
 
@@ -34,22 +32,22 @@ public class Producto implements Serializable {
     @ManyToOne
     private Productor productor;
     private String sku;
-    private int cantidadVecesValorado;
-    private int cantidadValoraciones;
+    private Double cantidadVecesValorado;
+    private Double cantidadValoraciones;
     private Double promedioValoraciones;
     @ManyToOne
     private Compra compra;
-    
+
     private boolean alta;
-    
-    @ElementCollection(targetClass=Imagenes.class)
+
+    @ElementCollection(targetClass = Imagenes.class)
     @OneToMany
     private Set<Imagenes> imagenes;
-    
+
     public Producto() {
     }
 
-    public Producto(String id, String nombre, Integer cantidad, Double precio, String descripcion, String varietal, Productor productor, String sku, int cantidadVecesValorado, int cantidadValoraciones, Double promedioValoraciones, Compra compra, boolean alta, Set<Imagenes> imagenes) {
+    public Producto(String id, String nombre, Integer cantidad, Double precio, String descripcion, String varietal, Productor productor, String sku, Double cantidadVecesValorado, Double cantidadValoraciones, Double promedioValoraciones, Compra compra, boolean alta, Set<Imagenes> imagenes) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
@@ -66,9 +64,7 @@ public class Producto implements Serializable {
         this.imagenes = imagenes;
     }
 
-
-
-  
+   
 
     public Compra getCompra() {
         return compra;
@@ -78,7 +74,6 @@ public class Producto implements Serializable {
         this.compra = compra;
     }
 
-   
     public String getId() {
         return id;
     }
@@ -143,22 +138,23 @@ public class Producto implements Serializable {
         this.sku = sku;
     }
 
-    public int getCantidadVecesValorado() {
+    public Double getCantidadVecesValorado() {
         return cantidadVecesValorado;
     }
 
-    public void setCantidadVecesValorado(int cantidadVecesValorado) {
+    public void setCantidadVecesValorado(Double cantidadVecesValorado) {
         this.cantidadVecesValorado = cantidadVecesValorado;
     }
 
-    public int getCantidadValoraciones() {
+    public Double getCantidadValoraciones() {
         return cantidadValoraciones;
     }
 
-    public void setCantidadValoraciones(int cantidadValoraciones) {
+    public void setCantidadValoraciones(Double cantidadValoraciones) {
         this.cantidadValoraciones = cantidadValoraciones;
     }
 
+    
     public Double getPromedioValoraciones() {
         return promedioValoraciones;
     }
@@ -166,8 +162,6 @@ public class Producto implements Serializable {
     public void setPromedioValoraciones(Double promedioValoraciones) {
         this.promedioValoraciones = promedioValoraciones;
     }
-
- 
 
     public boolean isAlta() {
         return alta;
@@ -185,8 +179,4 @@ public class Producto implements Serializable {
         this.imagenes = imagenes;
     }
 
-
-    
-    
-    
 }
