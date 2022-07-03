@@ -37,18 +37,31 @@ public class ImagenesServicio {
     public Imagenes guardarNueva(MultipartFile archivo) throws Excepcion {
 
         if (archivo != null) {
-
+            
             try {
+                
+                String imageType = archivo.getContentType().toString();
+                
+                if (!imageType.startsWith("image/")) {
+                    
+                    throw new Excepcion("El archivo que intentas cargar no corresponde a una imagen");
+    
+} 
                 Imagenes imagen = new Imagenes();
+                             
                 imagen.setMime(archivo.getContentType());
                 imagen.setNombre(archivo.getName());
                 imagen.setContenido(archivo.getBytes());
+                
+                System.out.println("archivo bytes" + archivo.getBytes());
                 return imagenesRepositorio.save(imagen);
 
             } catch (IOException ex) {
                 System.err.print(ex.getMessage());
             }
 
+        } if (archivo == null){
+            System.out.println("archivo nulo");
         }
 
         return null;
