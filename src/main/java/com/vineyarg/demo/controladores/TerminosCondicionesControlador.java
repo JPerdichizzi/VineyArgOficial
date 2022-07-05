@@ -22,6 +22,11 @@ public class TerminosCondicionesControlador {
     public String terminosCondiciones() {
         return "terminos-condiciones.html";
     }
+    
+     @GetMapping("/aboutUs")
+    public String nosotros() {
+        return "us.html";
+    }
         
     @GetMapping("/aboutUs")
     public String aboutUs() {
