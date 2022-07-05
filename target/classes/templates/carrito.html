@@ -108,7 +108,7 @@
                     <td>Eliminar</td>
                     <td>Imagen</td>
                     <td>Producto</td>
-                    <td>Precio<d>
+                    <td>Precio</td>
                     <td>Cantidad</td>
                     <td>Total</td>
                 </tr>
@@ -118,6 +118,7 @@
                 <tr th:if="${carrito != null}" th:each="item : ${itemsCompra}">
                     <td><a th:href="@{/eliminarProducto(idProductoEliminar=${item.id}, idCompraEnCurso=${carrito.id} )}"><i class="fas fa-trash-alt"></i></a></td>
                     <td><img src="/imagenes/productos/LB_Malbec_375.png" width="25px" alt=""></td>
+                    
                     <td>
                         <h5 th:text="${item.producto.nombre}"></h5>
                     </td>
