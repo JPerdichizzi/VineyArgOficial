@@ -23,7 +23,11 @@
     integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
 </head>
-
+<style>
+    .botones a{
+        text-decoration: none;
+    }
+</style>
 
 <body>
      <!-- Header -->
@@ -108,7 +112,7 @@
                     <td>Eliminar</td>
                     <td>Imagen</td>
                     <td>Producto</td>
-                    <td>Precio</td>
+                    <td>Precio<d>
                     <td>Cantidad</td>
                     <td>Total</td>
                 </tr>
@@ -117,8 +121,7 @@
             <tbody>
                 <tr th:if="${carrito != null}" th:each="item : ${itemsCompra}">
                     <td><a th:href="@{/eliminarProducto(idProductoEliminar=${item.id}, idCompraEnCurso=${carrito.id} )}"><i class="fas fa-trash-alt"></i></a></td>
-                    <td><img src="/imagenes/productos/LB_Malbec_375.png" width="25px" alt=""></td>
-                    
+                    <td><img th:src="@{${'/imagen/productoimagen/' + item.producto.id}}" alt="Foto del producto"></td>
                     <td>
                         <h5 th:text="${item.producto.nombre}"></h5>
                     </td>
@@ -142,7 +145,7 @@
             <div class="cuponDescuento col-lg-6 col-md-6 col-12 mb-4">
                 <div>
                     <h5>CUPON DE DESCUENTO</h5>
-                    <P>Si tienes un codigo de cupón ahora puedes agregarlo.</P>
+                    <P>Si tenés un código de cupón ahora podés agregarlo.</P>
                     <input type="text" placeholder="Ingresar cupón">
                     <button>APLICAR CUPÓN</button>
                 </div>
@@ -151,10 +154,10 @@
                 <div>
                     <h5>TOTAL DE LA COMPRA</h5>
                     <div class="d-flex justify-content-between">
-                        <h6>Subtotal antes de envío</h6>
+                        <h6>Subtotal antes del envío</h6>
                         <p th:if="${subtotal != null}" th:text="${'$' +subtotal}"></p>
                     </div>
-                    <hr class="second-hr">
+                     <hr class="second-hr">
                     <div class="d-flex justify-content-between">
                         <h6>Descuento por acumulación de compras anteriores (si sumaste más de $15.000 en compras anteriores y tu compra actual supera los $3.000) </h6>
                         <p th:if="${descuento != null}" th:text="${'-$' + descuento}"></p>
@@ -167,16 +170,18 @@
                     <hr class="second-hr">
                     <div class="d-flex justify-content-between">
                         <h6>Envío fijo a todo el país </h6>
-                        <p>$ 850,00</p>
+                        <p>$ 450.0</p>
                     </div>
                     <hr class="second-hr">
                     <div class="d-flex justify-content-between">
                         <h6>Total</h6>
                         <p th:if="${totalCompra != null}" th:text="${'$' + totalCompra}"> </p>
                     </div>
-                   
-                    <a th:href="@{/checkout/(idCompra=${carrito.id})}" class="text-decoration-none"> <button id="botonCompra" class="ml-auto" >PROCEDER A LA COMPRA</button></a>
-                    <a th:href="@{/anularCompra/(idCompra=${carrito.id})}" class="text-decoration-none"> <button id="botonCompra" class="ml-auto" >ANULAR COMPRA</button></a>
+                    <div class="botones">
+                    <a th:href="@{/checkout/(idCompra=${carrito.id})}" > <button id="botonCompra" class="ml-auto" >PROCEDER A LA COMPRA</button></a>
+                    <a th:href="@{/tienda}"> <button id="botonCompra" class="ml-auto" >SEGUIR COMPRANDO</button></a>
+                    <a th:href="@{/anularCompra/(idCompra=${carrito.id})}"> <button id="botonCompra" class="ml-auto" >ANULAR COMPRA</button></a>
+                    </div>
                 </div>
             </div>
         </div>
