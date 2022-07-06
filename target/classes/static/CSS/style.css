@@ -292,6 +292,52 @@ hr {
     background-color: #29292980;
 }
 
+/*-----------Iniio Banner----------*/
+.bannerIndex{
+    margin: 30px 0; 
+    position: relative;
+}
+.bannerIndex .bann-bg{
+    background-image: url(/imagenes/_1.png); 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    background-size: cover; 
+    width: 100%;
+}
+.bannerIndex .bann-bg img{
+    display: block; 
+    margin: 20px auto; 
+    padding: 20px 0;
+}
+.bannerIndex .bann-text h1{
+    color: #EC268F;
+}
+
+.bannerIndex .bann-text{
+    text-align: center;
+    padding-bottom: 20px;
+    color: #d8d8d8;
+}
+
+@media screen and (min-width:768px){
+    
+.bannerIndex .bann-bg img{
+    margin-right: 100px;
+}
+      
+.bannerIndex .bann-text{
+    position: absolute; top: 50%; left: 10%; transform: translate(-10%, -50%); width: 50%; text-align: left;
+}
+      
+.bannerIndex .bann-text h1{
+    font-size: calc(2*1.5vw);
+}
+      
+.bannerIndex .bann-text p{
+    font-size: calc(1.2*1.5vw);
+}
+}
+/*-----------Fin banner----*/
 
 
 /* Productos */
